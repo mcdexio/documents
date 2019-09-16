@@ -1,2 +1,3 @@
-# documents
-Documents for MCDEX's projects
+## MCDEX Documents
+
+### [Mai: A Protocol for Trading Decentralized Derivatives](en/mai.md)
