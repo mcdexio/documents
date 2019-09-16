@@ -55,7 +55,7 @@ The match engine can match the orders on the different side of the order book. A
 When trading frequently, the position tokens may be redeemed immediately after be minted. To reduce redundant minting and redeeming operations, Mai Protocol builds a minting pool. The pool reserves some position tokens in advance. Mai protocol tries to mint or redeem from the pool first. Only when the pool is insufficient, Mai protocol calls Market Protocol's mint or redeem interfaces.
 
 ## Architecture
-
+![mai-arch](asset/mai-arch.png)
 
 ## Acknowledgments
 
