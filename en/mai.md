@@ -1,7 +1,7 @@
 # Mai: A Protocol for Trading Decentralized Derivatives
 
 ## Motivation
-With the development of the DeFi ecosystem, more and more synthetic assets and derivatives, such as [Market Protocol](https://marketprotocol.io), [UMA Protocol](https://umaproject.org), and [Yield Protocol](http://research.paradigm.xyz/Yield.pdf), are born in the world of blockchain. These protocols are a good solution to the structural design of derivatives but often lack a simple, efficient, and easy to use trading mechanism. 
+With the development of the DeFi ecosystem, more and more synthetic assets and derivatives, such as [Market Protocol](https://marketprotocol.io), [UMA Protocol](https://umaproject.org), and [Yield Protocol](http://research.paradigm.xyz/Yield.pdf), are born in the world of blockchain. These protocols are good solutions to build derivatives contracts but often lack a simple, efficient, and easy to use trading mechanism. 
 
 Existing trading protocols, such as 0x, Hydro, and Uniswap, have well solved ERC20 tokens exchange requirements. However, traders often have difficulty in trading ERC20 position tokens of those derivatives directly. There are usually two reasons for this difficulty. First of all, the trade of decentralized derivatives is usually accompanied by minting, redeeming, and exchange of position tokens. The existing ERC20 trading protocols can only complete the exchange, lacking the functions of minting and redeeming. Furthermore, the pricing of derivatives is often different from that of position tokens. Traders need complex price conversion to trade position tokens directly.
 
