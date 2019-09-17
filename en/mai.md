@@ -57,6 +57,31 @@ When trading frequently, the position tokens may be redeemed immediately after b
 ## Architecture
 ![mai-arch](asset/mai-arch.png)
 
+### MAI Protocol
+
+The MAI Exchange contract is at the core of the entire protocol. It handles the matching and cancellation of orders, and is designed to support the exchange of various assets.
+
+Specifically, the bulk of the exchange logic resides in the public method matchOrders, which:
+
+- Checks signatures and verifies the integrity of orders
+- Computes the resulting state that would occur as a result of matching the passed in orders via a set of limit exchange matching engine rules (Buy, Sell, Mint, Redeem)
+- Delegates the actual settlement (a set of token transfers) to the Proxy
+
+### Proxy
+
+The Proxy contract is primarily designed to perform ERC20 to ERC20 token swaps and interact with MARKET Protocol to mint or redeem position tokens. It is responsible for actually settling the results of matching orders. One advantage of using the proxy contract for this is that it allows the Exchange contract to be upgraded without requiring users to waste gas on re-approvals and break the flow of the exchange.
+
+When a user places an order, the user's actual assets remain in their own address and can be freely controlled at any time until the order is matched (no deposit). Once an order is matched, the proxy contract then executes a transaction that transfers the assets of the trade. Each party of the trade receives their new assets in their address directly (no withdraw).
+
+### Minting Pool
+
+The minting pool is expected to serve as a buffer between proxy and MARKET Protocol. The proxy can be set to work with a deployed minting pool, or to interact with MARKET Protocol directly. Owner of the pool must deposit tokens before trading to enable the features.
+
+The minting pool could help the proxy to save fees on:
+
+- Using MKT (Market Token) for minting instead of using collaterals which is usually more expensive than former
+- Recycling tokens for further exchanges, saving both gas and minting fees
+
 ## Acknowledgments
 
 Mai is inspired by the [0x project](https://github.com/0xProject) and [Hydro](https://github.com/HydroProtocol).
