@@ -57,7 +57,7 @@ When trading frequently, the position tokens may be redeemed immediately after b
 ## Architecture
 ![mai-arch](asset/mai-arch.png)
 
-### MAI Protocol
+### MAI Exchange
 
 The MAI Exchange contract is at the core of the entire protocol. It handles the matching and cancellation of orders, and is designed to support the exchange of various assets.
 
@@ -81,6 +81,10 @@ The minting pool could help the proxy to save fees on:
 
 - Using MKT (Market Token) for minting instead of using collaterals which is usually more expensive than former
 - Recycling tokens for further exchanges, saving both gas and minting fees
+
+## Interface
+
+TODO
 
 ## Acknowledgments
 
