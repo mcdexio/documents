@@ -82,9 +82,6 @@ The minting pool could help the proxy to save fees on:
 - Using MKT (Market Token) for minting instead of using collaterals which is usually more expensive than former
 - Recycling tokens for further exchanges, saving both gas and minting fees
 
-## Interface
-
-TODO
 
 ## Acknowledgments
 
