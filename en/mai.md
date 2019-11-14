@@ -11,7 +11,7 @@ To solve the above difficulties, we designed a new trading protocol called "Mai 
 
 The name Mai comes from two Chinese characters "买," which means buy and "卖," which means sell. Using pinyin (the modern system for transliterating Chinese characters to Latin letters) "买" is spelled Mǎi and "卖" is spelled Mài.
 
-We design and build Mai Protocol in stages. In the first release, **Mai protocol first supports trading Market Protocol contracts**. We will gradually add functions for trading other derivatives in future versions.
+We design and build Mai Protocol in stages. In the first release, **Mai protocol first supports trading Market Protocol contracts**. We will gradually support other derivatives in future versions.
 
 ## Challenges
 
