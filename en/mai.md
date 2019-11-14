@@ -1,9 +1,9 @@
 # Mai: A Protocol for Trading Decentralized Derivatives
 
 ## Motivation
-With the development of the DeFi ecosystem, more and more synthetic assets and derivatives, such as [Market Protocol](https://marketprotocol.io), [UMA Protocol](https://umaproject.org), and [Yield Protocol](http://research.paradigm.xyz/Yield.pdf), are born in the world of blockchain. These protocols are good solutions to build derivatives contracts but often lack a simple, efficient, and easy to use trading mechanism. 
+With the development of the DeFi ecosystem, more and more synthetic assets and derivatives, such as [Market Protocol](https://marketprotocol.io), [UMA Protocol](https://umaproject.org), and [Yield Protocol](http://research.paradigm.xyz/Yield.pdf), are born in the world of blockchain. These protocols are good solutions to build derivatives contracts but often lack a simple, efficient, and easy-to-use trading mechanism. 
 
-Existing trading protocols, such as 0x, Hydro, and Uniswap, have well solved ERC20 tokens exchange requirements. However, traders often have difficulty in trading ERC20 position tokens of those derivatives directly. There are usually two reasons for this difficulty. First of all, the trade of decentralized derivatives is usually accompanied by minting, redeeming, and exchange of position tokens. The existing ERC20 trading protocols can only complete the exchange, lacking the functions of minting and redeeming. Furthermore, the pricing of derivatives is often different from that of position tokens. Traders need complex price conversion to trade position tokens directly.
+Existing trading protocols, such as 0x, Hydro, and Uniswap, have well solved ERC20 tokens exchange requirements. However, traders often have difficulty in trading ERC20 position tokens of those derivatives directly. There are basically two reasons.First of all, the trade of decentralized derivatives is usually accompanied by minting, redeeming, and exchange of position tokens. The existing ERC20 trading protocols can only complete the exchange, lacking the functions of minting and redeeming. Furthermore, the pricing of derivatives is often different from that of position tokens. Traders need complex price conversion to trade position tokens directly.
 
 To solve the above difficulties, we designed a new trading protocol called "Mai Protocol" on Ethereum. 
 
@@ -11,7 +11,7 @@ To solve the above difficulties, we designed a new trading protocol called "Mai 
 
 The name Mai comes from two Chinese characters "买," which means buy and "卖," which means sell. Using pinyin (the modern system for transliterating Chinese characters to Latin letters) "买" is spelled Mǎi and "卖" is spelled Mài.
 
-We design and build Mai Protocol in stages. In the first release, **Mai protocol first supports trading Market Protocol contracts**. We will gradually add features for trading other derivatives in future versions.
+We design and build Mai Protocol in stages. In the first release, **Mai protocol first supports trading Market Protocol contracts**. We will gradually add functions for trading other derivatives in future versions.
 
 ## Challenges
 
@@ -48,7 +48,7 @@ The match engine can match the orders on the different side of the order book. A
 | Buy             | Positive or Zero    |  Sell            |  Positive            | Transfer the long position token from B to A and transfer the collateral token from A to B |
 | Buy             | Positive or Zero    |  Sell            |  Negative or Zero    | Mint a pair of position tokens from Market Protocol, send the long position token to A and the short position token to B |
 | Buy             | Negative            |  Sell            |  Positive            | Redeem the pair of position tokens through Market Protocol and send the returned collateral tokens to A and B |
-| Buy             | Negative            |  Sell            |  Positive or Zero    | Transfer the short position token from A to B and transfer the collateral token from B to A |
+| Buy             | Negative            |  Sell            |  Negative or Zero    | Transfer the short position token from A to B and transfer the collateral token from B to A |
 
 *"Positive" means the trader has long position tokens. "Negative" means the trader has short position tokens. "Zero" means the trader has no position token.*
 
