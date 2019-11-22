@@ -89,5 +89,5 @@ Mai is inspired by the [0x project](https://github.com/0xProject) and [Hydro](ht
 
 ## Source Code
 
-Visit the Mai Protocol source code at [GitHub](https://github.com/mcdexio/mai-protocol).
+View the Mai Protocol source code at [GitHub](https://github.com/mcdexio/mai-protocol).
 
