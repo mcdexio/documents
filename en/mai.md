@@ -87,3 +87,7 @@ The minting pool could help the proxy to save fees on:
 
 Mai is inspired by the [0x project](https://github.com/0xProject) and [Hydro](https://github.com/HydroProtocol).
 
+## Source Code
+
+Visit the Mai Protocol source code at [GitHub](https://github.com/mcdexio/mai-protocol).
+
