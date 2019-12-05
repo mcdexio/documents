@@ -65,13 +65,6 @@ Specifically, the bulk of the exchange logic resides in the public method matchO
 
 - Checks signatures and verifies the integrity of orders
 - Computes the resulting state that would occur as a result of matching the passed in orders via a set of limit exchange matching engine rules (Buy, Sell, Mint, Redeem)
-- Delegates the actual settlement (a set of token transfers) to the Proxy
-
-### Proxy
-
-The Proxy contract is primarily designed to perform ERC20 to ERC20 token swaps and interact with MARKET Protocol to mint or redeem position tokens. It is responsible for actually settling the results of matching orders. One advantage of using the proxy contract for this is that it allows the Exchange contract to be upgraded without requiring users to waste gas on re-approvals and break the flow of the exchange.
-
-When a user places an order, the user's actual assets remain in their own address and can be freely controlled at any time until the order is matched (no deposit). Once an order is matched, the proxy contract then executes a transaction that transfers the assets of the trade. Each party of the trade receives their new assets in their address directly (no withdraw).
 
 ### Minting Pool
 
