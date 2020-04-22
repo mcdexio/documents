@@ -1,4 +1,4 @@
-# How to add liquidity to AMM
+# How to Add Liquidity to AMM
 
 This article details how to provide/remove liquidity to AMM.
 
