@@ -88,7 +88,7 @@ After the operation is completed, Alice's margin account
 
 And AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) | 
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
 |:--:|:---------:|:---------:|:------:|
 | 11 |  110       |   220    | 10     |
 
@@ -101,7 +101,7 @@ And AMM's margin account:
 
 And AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) | 
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
 |:--:|:---------:|:---------:|:------:|
 | 10 |  100       |   200    | 10     |
 
@@ -118,7 +118,7 @@ After the operation is completed, Alice's margin account
 
 And AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) | 
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
 |:--:|:---------:|:---------:|:------:|
 | 11 |  110       |   220    | 10     |
 
@@ -134,7 +134,7 @@ In this example, Alice had a long position at the beginning. After the adding op
 
 And AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) | 
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
 |:--:|:---------:|:---------:|:------:|
 | 10 |  100       |   200    | 10     |
 
@@ -153,7 +153,7 @@ After the operation is completed, Alice's margin account
 And AMM's margin account:
 
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) | 
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
 |:--:|:---------:|:---------:|:------:|
 | 11 |  110       |   220    | 10     |
 
@@ -164,7 +164,7 @@ In this example, Alice had a short position at the beginning. After the addition
 Simply providing liquidity to AMM does not increase the risk exposure of providers. This is because the short position caused by the adding operation is exactly equal to the AMM's long position attributable to the provider. For example, the above `Example 1`, when the adding operation is completed, AMM situation is as follows:
 
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
 |:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:----------------:|
 | 11 |  110         |    220    | 10        | 1/11        |       1         |       20         |
 
@@ -188,7 +188,7 @@ For example: Bob buy 1 contract from AMM at the price `p = 110 / (11-1) = 11`, (
 
 The situation of AMM after the trade is as follows:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
 |:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:---------------:|
 | 10 |  120         |    220    | 12        | 1/11        |       10/11     |  20             |
 
@@ -215,7 +215,7 @@ The liquidity provider can withdraw its share in the pool at any time. When remv
 
 AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) |  Alice's shares |
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) |  Alice's shares |
 |:--:|:------------:|:---------:|:---------:|:-----------:|
 | 10 |  100         |    200    | 10        | 0           |
 
@@ -229,7 +229,7 @@ This is equivalent to reverting to Alice's original state
 
 `Example 2`, follow the example in "Risk Exposure and Revenue", if Alice removes liquidity after Bob's transaction is completed, then the AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
 |:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:--------------:|
 | 10 |  110         |    200    | 12        | 0           |       0         |  0             |
 
