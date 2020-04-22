@@ -71,7 +71,7 @@ It should be noted that since the provider sell contracts to AMM when adding liq
 
 And AMM's margin account:
 
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mide Price(`x/y`) | 
+|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
 |:---:|:-----------:|:---------:|:---------:|
 | 10  |  100        |    200    | 10        |
 
