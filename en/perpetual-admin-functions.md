@@ -1,6 +1,8 @@
+# Admin Functions
+
 Only admin can call the following functions in order to change the governance parameters.
 
-### Perpetual
+## Perpetual
 
 * Perpetual.addWhitelistAdmin: Add another admin
 * Perpetual.addWhitelisted: Add a new Exchange/AMM contract that can buy/sell from this Perpetual
@@ -24,7 +26,7 @@ Only admin can call the following functions in order to change the governance pa
 * Perpetual.endGlobalSettlement: Enter the "global settlement" status. In this status, all traders can withdraw their MarginBalance
 * Perpetual.withdrawFromInsuranceFund: Withdraw insurance fund. Typically happen in the "global settlement" status
 
-### AMM
+## AMM
 
 * AMM.addWhitelistAdmin: Add another admin
 * AMM.addWhitelisted: Add a new Exchange contract that can buy/sell from this AMM
@@ -36,7 +38,7 @@ Only admin can call the following functions in order to change the governance pa
   * markPremiumLimit: The MarkPrice is always around the IndexPrice · (1 ± markPremiumLimit). Note that maximum FundingRate is also controlled by this parameter
   * fundingDampener: A reasonable trading price range. If the FairPrice is inner IndexPrice · (1 ± fundingDampener), FundingRate will be 0
 
-### Global Config
+## Global Config
 
 * GlobalConfig.setGlobalParameter: Modify the global parameters including:
   * withdrawalLockBlockCount: A trader can withdraw his/her MarginBalance after applying and wait for withdrawalLockBlockCount blocks

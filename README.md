@@ -18,7 +18,7 @@
 * TODO: Security Design. Locks, Brokers
 * TODO: Funding Rate Design
 * TODO: Contract Interfaces
-* [Admin Functions: What can the admin do](en/perpetual-admin-functions.md)
+* [Admin Functions: What Can the Admin Do](en/perpetual-admin-functions.md)
 * [Internal Design of Perpetual](en/internal-perpetual.md)
 * [Internal Design of AMM](en/internal-amm.md)
 * TODO: How To Build The Contract
