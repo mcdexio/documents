@@ -1,8 +1,6 @@
 # Internal Design of AMM
 
-```
-NOTE: This is a technical document of the smart contract. If you don't care how smart contracts are written, please skip this document.
-```
+<blockquote>:warning: NOTE: This is a technical document of the smart contract. If you don't care how smart contracts are written, please skip this document.</blockquote>
 
 - [Internal Design of AMM](#internal-design-of-amm)
   - [Functions and Motivation](#functions-and-motivation)
