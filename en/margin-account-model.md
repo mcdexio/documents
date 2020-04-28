@@ -1,9 +1,31 @@
-# Perpetual Margin Account Model
+# Perpetual Margin-Account Model
 
-* UPNL2 >= 0
+## On-Chain part
+
+| Term | Definition |
+|------|------------|
+| CashBalance | Deposited collateral |
+| MarginBalance | `CashBalance + PNL2` |
+| PositionMargin | `MarkPrice * PositionSize * IMRate` |
+| MaintenanceMargin | `MarkPrice * PositionSize * MMRate` |
+| AvailableMargin | The balance that can open new positions = `MarginBalance - PositionMargin - WithdrawalApplicationAmount` |
+| WithdrawableBalance | `MIN(MarginBalance - PositionMargin, WithdrawalApplicationAmount)` |
+| IsSafe | `MarginBalance >= MaintenanceMargin` |
+| PNL1 | Long position: `(MarkPrice - AvgEntryPrice) * PositionSize`<br>Short position: `(AvgEntryPrice - MarkPrice) * PositionSize` |
+| PNL2 | `PNL1 - SocialLoss - FundingLoss` |
+| WithdrawalApplicationAmount | Total number of withdrawal application submitted by the user |
+
+## Off-Chain part
+
+| Term | Definition |
+|------|------------|
+| OrderMargin | `MarkPrice * OrderSize * IMRate` |
+| AvailableBalance | `AvailableMargin - OrderMargin` |
+
+## Example: PNL2 >= 0
 
 ![margin-account](asset/margin-account-model-1.png)
 
-* UPNL2 < 0
+## Example: PNL2 < 0
 
 ![margin-account](asset/margin-account-model-2.png)

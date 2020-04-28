@@ -4,16 +4,18 @@
 
 ### Overview
 * [A Brief Introduction](en/perpetual-brief-introduction.md)
-* TODO: The MarginAccount Model
+* [MCDEX references](https://mcdex.io/references/Perpetual)
+* [The Margin-Account Model](en/margin-account-model.md)
 * TODO: Contracts and Relationships
-* TODO: Security Design. Locks, Brokers
-* TODO: Exchange
+* TODO: Matching Engine and the Exchange Contract
 
 ### User's Guid
 * [How to Add Liquidity to AMM (english)](en/how-to-add-liquidity-to-amm.md)
 * [How to Add Liquidity to AMM (chinese)](cn/how-to-add-liquidity-to-amm.md)
+* [MCDex Order Book API](https://mcdex.io/doc/api)
 
 ### Contract Implementation and Development
+* TODO: Security Design. Locks, Brokers
 * TODO: Funding Rate Design
 * TODO: Contract Interfaces
 * [Admin Functions: What can the admin do](en/perpetual-admin-functions.md)
