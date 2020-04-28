@@ -15,7 +15,7 @@ We design and build Mai Protocol in stages. In the first release, **Mai protocol
 
 ## Challenges
 
-Market Protocol provides a secure framework that supports decentralized issuance of index futures contracts. Market Protocol succeeds in fully tokenizing the positions of contracts. The position tokens of Market Protocol are standard ERC20 tokens, and traders can trade the tokens within any exchange. However, the user experience of directly trading position tokens is abysmal. The chanllenges are as follows:
+Market Protocol provides a secure framework that supports decentralized issuance of index futures contracts. Market Protocol succeeds in fully tokenizing the positions of contracts. The position tokens of Market Protocol are standard ERC20 tokens, and traders can trade the tokens within any exchange. However, the user experience of directly trading position tokens is abysmal. The challenges are as follows:
 
 First, a long trader and a short trader can not make a deal directly. Someone of them needs to mint a pair of position tokens (consisting of long position token and short position token) and sell the token of the opposite side to the counterparty to make the deal. For example, the long trader mint a pair of position tokens and sell the short position token to the short trader. Otherwise, to conclude the transaction, a market maker is needed to mint the position tokens. The market maker sells the long position token to the long trader and sells the short position token to the short trader.
 
