@@ -32,11 +32,11 @@ The "Perpetual" contract is used to manage margin accounts, positions, and PnL c
 There're 3 status: Normal, Emergency and GlobalSettled.
 * Normal: In this status, long positions MUST always equal to short positions. ie: Unpaired position never exists.
 * Emergency: If there are too many bad assets, the admin can switch Perpetual into this status.
-* * Trading is NOT allowed
-* * Withdraw is NOT allowed
-* * Liquidate is allowed
-* * Deposit is allowed in order to prevent himself from liquidation
-* * Admin can modify the cashBalance and socialLoss if hacks detected (ex: oracle hack)
+  * Trading is NOT allowed
+  * Withdraw is NOT allowed
+  * Liquidate is allowed
+  * Deposit is allowed in order to prevent himself from liquidation
+  * Admin can modify the cashBalance and socialLoss if hacks detected (ex: oracle hack)
 * GlobalSettled: Traders can now withdraw
 
 ## Variables
