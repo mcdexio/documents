@@ -77,7 +77,7 @@ And AMM's margin account:
 
 Alice adds 1 contract liquidity to AMM:
 
-1. Alice sells one contract to AMM at mid-price 10, then Alice's position size becomes -10 and AMM's position size becomes 11.
+1. Alice sells one contract to AMM at mid-price 10, then Alice's position size becomes -1 and AMM's position size becomes 11.
 2. Alice transfers 10 * 1 * 2 = 20 collateral tokens to AMM
 
 After the operation is completed, Alice's margin account
