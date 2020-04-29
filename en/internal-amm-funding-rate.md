@@ -16,7 +16,7 @@ The Mark Price is derived using both the Index and the Fair Price, by adding to 
 
 We can rewrite the recursive formula of EMA as a general term, so as to calculate the final result since the last on-chain state.
 
-<a href="https://www.codecogs.com/eqnedit.php?latex={EMA}_t(V)&space;=&space;\alpha&space;V&plus;(1-\alpha)&space;{EMA}_{t-1}=(1-\alpha)^n(a-v)&plus;v,&space;where~a&space;=&space;EMA_0" target="_blank"><img src="https://latex.codecogs.com/gif.latex?{EMA}_t(V)&space;=&space;\alpha&space;V&plus;(1-\alpha)&space;{EMA}_{t-1}=(1-\alpha)^n(a-v)&plus;v,&space;where~a&space;=&space;EMA_0" title="{EMA}_t(V) = \alpha V+(1-\alpha) {EMA}_{t-1}=(1-\alpha)^n(a-v)+v, where~a = EMA_0" /></a>
+[![{EMA}_t(V) = \alpha V+(1-\alpha) {EMA}_{t-1}=(1-\alpha)^n(a-v)+v, where~a = EMA_0](asset/perpetual-funding-ema.gif)](https://www.codecogs.com/eqnedit.php?latex={EMA}_t(V)&space;=&space;\alpha&space;V&plus;(1-\alpha)&space;{EMA}_{t-1}=(1-\alpha)^n(a-v)&plus;v,&space;where~a&space;=&space;EMA_0)
 
 So we can define the EMAPremium as:
 
@@ -50,7 +50,7 @@ FundingPayment: The collateral paid/received = FundingRate * IndexPrice * Positi
 
 Since the smart contract cannot actually be executed once per second, the contract will accumulate all values since the last on-chain state each time it is executed in a transaction. For example, the last recording time was LastFundingTime, then this accumulation interval is [LastFundingTime, block.time). The value of current second is not accumulated, so the formula can support multiple transactions in a block.
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)&plus;v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}&plus;v(y-x)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)&plus;v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}&plus;v(y-x)" title="\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)+v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}+v(y-x)" /></a>
+[![\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)+v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}+v(y-x)](asset/perpetual-funding-ema-sigma.gif)](https://www.codecogs.com/eqnedit.php?latex=\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)&plus;v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}&plus;v(y-x))
 
 So sigma between [x, y) is:
 
@@ -60,7 +60,7 @@ R(x, y) = (LastEMAPremium - LastPremium)*(Pow(1 - GovEMAAlpha, x) - Pow(1 - GovE
 
 We also need to know when premiumRate has reached the damper and limit. Solve the t from equation:
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=markPriceWithoutClip&space;=&space;index&space;&plus;&space;emaPremium&space;\newline&space;premiumRateWithoutClip&space;=&space;\frac{markPriceWithoutClip&space;-&space;index}{index}&space;\newline&space;premiumRateWithoutClip&space;=&space;someRatio&space;\newline&space;\rightarrow&space;t&space;=&space;Log_{1-\alpha}{\frac{lastPremium&space;-&space;index\cdot&space;someRatio}{lastPremium&space;-&space;a}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?markPriceWithoutClip&space;=&space;index&space;&plus;&space;emaPremium&space;\newline&space;premiumRateWithoutClip&space;=&space;\frac{markPriceWithoutClip&space;-&space;index}{index}&space;\newline&space;premiumRateWithoutClip&space;=&space;someRatio&space;\newline&space;\rightarrow&space;t&space;=&space;Log_{1-\alpha}{\frac{lastPremium&space;-&space;index\cdot&space;someRatio}{lastPremium&space;-&space;a}}" title="markPriceWithoutClip = index + emaPremium \newline premiumRateWithoutClip = \frac{markPriceWithoutClip - index}{index} \newline premiumRateWithoutClip = someRatio \newline \rightarrow t = Log_{1-\alpha}{\frac{lastPremium - index\cdot someRatio}{lastPremium - a}}" /></a>
+[![markPriceWithoutClip = index + emaPremium \newline premiumRateWithoutClip = \frac{markPriceWithoutClip - index}{index} \newline premiumRateWithoutClip = someRatio \newline \rightarrow t = Log_{1-\alpha}{\frac{lastPremium - index\cdot someRatio}{lastPremium - a}}](asset/perpetual-funding-ema-time.gif)](https://www.codecogs.com/eqnedit.php?latex=markPriceWithoutClip&space;=&space;index&space;&plus;&space;emaPremium&space;\newline&space;premiumRateWithoutClip&space;=&space;\frac{markPriceWithoutClip&space;-&space;index}{index}&space;\newline&space;premiumRateWithoutClip&space;=&space;someRatio&space;\newline&space;\rightarrow&space;t&space;=&space;Log_{1-\alpha}{\frac{lastPremium&space;-&space;index\cdot&space;someRatio}{lastPremium&space;-&space;a}})
 
 ```
 v0 = LastEMAPremium
