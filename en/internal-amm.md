@@ -52,10 +52,10 @@ Any ETH account can provide liquidity into the Liquidity Pool by calling AddLiqu
 
 ### Pool computed
 - PoolAvailableMargin:= CashBalance - EntryValue - SocialLoss - FundingLoss
-    - NOTE: This formula is different to Perptual.AvailableMargin
-- PositionSize: Long positions count in the Pool. Equal to Perptual.PositionSize
+    - NOTE: This formula is different to Perpetual.AvailableMargin
+- PositionSize: Long positions count in the Pool. Equal to Perpetual.PositionSize
 - FairPrice: PoolAvailableMargin / PositionSize
-- Premium:= FairPrice - LastIndexPrice
+- LastPremium:= FairPrice - LastIndexPrice
 - EMAPremium:
   - n = Now() - LastFundingTime (NOTE: Don't depend on web3's block.time, if you need a realtime EMAPremium, MarkPrice, PremiumRate and FundingRate. Please re-calculate them according to this document）
   - EMAPremium = (LastEMAPremium - LastPremium) * Pow(GovEMAAlpha2, n) + LastPremium
@@ -193,7 +193,7 @@ Steps:
    - Let funding variables up-to-date to IndexTimestamp (step 3-5). After that, LastFundingTime:= IndexTimestamp
    - Run step 3-5 again, so that LastFundingTime:= Now()
 3. If LastFundingTime != BlockTime THEN 
-   1. Calculate AccumulatedFundingRate: The following formula limit and dampener the Funding curve. The 4 points (-GovMarkPremiumLimit, -GovFundingDampener, +GovFundingDampener, +GovMarkPremiumLimit) segment the curve into 5 part, so that the entry price and exit price of the EMA can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches
+   1. Calculate AccumulatedFundingRate: The following formula limit and dampener the Funding curve. The 4 points (-GovMarkPremiumLimit, -GovFundingDampener, +GovFundingDampener, +GovMarkPremiumLimit) segment the curve into 5 part, so that the entry price and exit price of the EMA can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches. Check [Implementation of Funding Rate](internal-amm-funding-rate.md) for details.
      - n:= BlockTime - LastFundingTime (the unit is second)
      - v0 = LastEMAPremium; vt = (LastEMAPremium - LastPremium) * Pow(GovEMAAlpha2, n) + LastPremium
      - vLimit = GovMarkPremiumLimit * LastIndexPrice

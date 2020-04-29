@@ -49,7 +49,7 @@ There're 3 status: Normal, Emergency and GlobalSettled.
  - GovInitialMarginRate: Initial margin rate
  - GovMaintenanceMarginRate: Maintenance margin rate
  - GovLiquidationPenaltyRate: Liquidation penalty rate of the liquidated assets to Liquidator/Keeper
- - GovPenaltyFundRate: Liquidation penalty rate of the liquidated assets to the InsurranceFund
+ - GovPenaltyFundRate: Liquidation penalty rate of the liquidated assets to the InsuranceFund
  - GovTakerDevFeeRate: Taker fee rate of the trading volume when using the Exchange. In order to make ClosePosition easier, when closing a position, if the trader's balance is not enough, the trading fee will be limited to the balance. NOTE: trading with AMM does not use GovTakerDevFeeRate
  - GovMakerDevFeeRate: Maker fee rate of the trading volume when using the Exchange. In order to make ClosePosition easier, when closing a position, if the trader's balance is not enough, the trading fee will be limited to the balance.
 
@@ -322,7 +322,7 @@ In order to prevent from removing all positions from the liquidated account, cal
   - Short: Sell(Liquidator, LiquidationPrice, LiquidationAmount)
 
 2. Send the penalty
-  - InsurranceFund:+= LiquidationPrice * LiquidationAmount * GovPenaltyFundRate
+  - InsuranceFund:+= LiquidationPrice * LiquidationAmount * GovPenaltyFundRate
   - Liquidator.CashBalance:+= LiquidationPrice * LiquidationAmount * GovLiquidationPenaltyRate
 
 3. TotalSize: Liquidated account can only ClosePosition, so TotalSize
@@ -330,12 +330,12 @@ In order to prevent from removing all positions from the liquidated account, cal
   - Liquidator is closing positions：TotalSize:-= LiquidationAmount
 
 4. Handle the loss
-   - If InsurranceFund.CashBalance >= LiquidationLoss
+   - If InsuranceFund.CashBalance >= LiquidationLoss
      - LiquidationLoss:-=InsurraceFund
    - Else:
-     - CollateralInInsurranceFund:= InsurranceFund
+     - CollateralInInsuranceFund:= InsuranceFund
      - InsurraceFund:= 0
-     - SocialLoss:= LiquidationLoss - CollateralInInsurranceFund
+     - SocialLoss:= LiquidationLoss - CollateralInInsuranceFund
      - SocialLossPerContract:= SocialLoss / TotalSize
      - If Long: LongSocialLossPerContract += SocialLossPerContract
      - If Short: ShortSocialLossPerContract += SocialLossPerContract
