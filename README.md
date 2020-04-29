@@ -30,7 +30,7 @@ Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The ma
 ### Development and Contract Implementation
 * [MCDex Order Book API](https://mcdex.io/doc/api)
 * [Contract Architecture](en/perpetual-architecture.md)
-* [Contract interfaces: What Can Traders Do](en/perpetual-interfaces.md)
+* [Contract Interfaces: What Can Traders Do](en/perpetual-interfaces.md)
 * [Admin Functions: What Can the Admin Do](en/perpetual-admin-functions.md)
 * [Internal Design of Perpetual](en/internal-perpetual.md)
 * [Internal Design of AMM](en/internal-amm.md)
