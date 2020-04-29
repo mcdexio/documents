@@ -1,6 +1,6 @@
 # Internal Design of Perpetual
 
-<blockquote>:warning: NOTE: This is a technical document of the smart contract. If you don't care how smart contracts are written, please skip this document.</blockquote>
+:warning: NOTE: This is a technical document of the smart contract. If you don't care how smart contracts are written, please skip this document.
 
 - [Internal Design of Perpetual](#internal-design-of-perpetual)
   - [Functions and Motivation](#functions-and-motivation)
