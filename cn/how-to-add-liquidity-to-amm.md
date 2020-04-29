@@ -21,6 +21,8 @@ x = Margin Balance - y * Entry Price
 ```
 `Entry Price`是AMM进入多头的平均价格。上述公式保证了AMM头寸始终按`Entry Price`占用完全抵押的保证金，即1倍保证金。头寸占用之外的保证金作为AMM的可用保证金。
 
+（为什么多头头寸可以保持完全抵押：以ETH为例，假设当前价格为p1，则一旦存入的抵押物达到p1，则相当于拥有1 ETH。如果此后价格变为p2，则PNL公式能保证抵押物自动变为p2，仍然相当于1 ETH。有时人们把这一现象称为合成资产（Synthetic assets）。因此在Uniswap公式中存入p1 + 1ETH，可以等价为存入2 * p1并获得p1 + 1个多头头寸。）
+
 值得注意的是，保证金账户按初始保证金率计算的可用保证金为
 ```
 Available Margin = Margin Balance - y * Mark Price * Initial Margin  > x
@@ -36,7 +38,6 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
 
 当交易员通过AMM做多时，AMM的多头头寸y下降，AMM的可用保证金x会上升，这个过程是消耗多头头寸存货的过程。
 当交易员通过AMM做空时，AMM的多头头寸y上升，AMM的可用保证金x会下降，这个过程是消耗可用保证金存货的过程。
-
 
 更多关于AMM的定价公式的数学推导，可以参见[这里](https://mcdex.io/references/Perpetual#automated-market-maker)。
 

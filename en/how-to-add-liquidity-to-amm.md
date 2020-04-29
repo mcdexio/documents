@@ -22,6 +22,7 @@ x = Margin Balance - y * Entry Price
 
 `Entry Price` is the average price of AMM entering the long position. The above formula guarantees that AMM position will always be fully collateralized according to the Entry Price. The margin balance minus the position occupancy is used as the available margin for AMM.
 
+(Why a long position can be kept fully collateralized: Taking ETH as an example, assuming the current price is p1, once the deposited collateral reaches p1, it is equivalent to having 1 ETH. If the price thereafter becomes p2, the PNL formula can guarantee that the collateral automatically becomes p2, which is still equivalent to 1 ETH. Sometimes people call this phenomenon as Synthetic assets. Therefore, depositing p1 + 1ETH in the Uniswap formula can be equivalent to deposit 2 * p1 and get p1 + 1 long position.)
 
 It is worth noting that the available margin calculated by the margin account at the initial margin rate is
 
