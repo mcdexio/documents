@@ -21,10 +21,13 @@ We can rewrite the recursive formula of EMA as a general term, so as to calculat
 So we can define the EMAPremium as:
 
 ```
-Premium:= FairPrice - LastIndexPrice
+LastIndexPrice := Read the oracle
+LastPremium:= FairPrice - LastIndexPrice
 n:= Now() - LastFundingTime
-EMAPremium:= (LastEMAPremium - Premium) * Pow(1 - GovEMAAlpha, n) + Premium
+EMAPremium:= (LastEMAPremium - LastPremium) * Pow(1 - GovEMAAlpha, n) + LastPremium
 ```
+
+Note that all variables starting with "last" will be saved to the contract storage, so after this transaction the person who calls the contract will think it is an old value.
 
 ## Funding rate
 
