@@ -56,7 +56,7 @@ struct PositionAccount {
 
 Broker, specified by trader, is a kind of special user doing jobs of matching off-chain order for order owner. When matching different orders, all the orders should have the same broker. 
 
-#### Governace
+#### Governance
 
 Governance maintains all parameters required for running a perpetual contract, including risk parameters, addresses, status and so on.
 
@@ -93,7 +93,6 @@ struct OrderParam {
     bytes32 data;
     LibSignature.OrderSignature signature;
 }
-
 ```
 
 ### AMM
