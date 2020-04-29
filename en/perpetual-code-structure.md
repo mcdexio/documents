@@ -1,19 +1,19 @@
-# Architecture
+# Perpetual Code Structure
 
-The Mai Protocol V2 protocol is mainly composed of three parts: perpetual, exchange and amm. The perpetual contract stores data of margin accounts including collaterals and positions. The exchange contract implements 'match' interface for orderbook trading, similar to what Mai protocol V1 achieved. The amm contract implements a uniswap-like interface for user to directly interact with contract.
+The Mai Protocol V2 protocol is mainly composed of three parts: Perpetual, AMM and Exchange. The Perpetual contract stores data of margin accounts including collaterals and positions. The Exchange contract implements 'match' interface for orderbook trading, similar to what Mai protocol V1 achieved. The AMM contract implements a Uniswap-like interface for user to directly interact with contract.
 
 
 ## Perpetual
 
-Perpetural is the core of MMai Protocol V2 protocol. As mentioned above, it holds all assets owned by user, providing interfaces to manipulate balance and positon. One perpetual contract is exactly serving for one trading pair.
+Perpetual is the core of Mai Protocol V2 protocol. As mentioned above, it holds all assets owned by user, providing interfaces to manipulate balance and position. One Perpetual contract is exactly serving for one trading pair.
 
-All calculations taking price as parameter read price from amm contract. 
+All calculations taking price as parameter read price from AMM contract. 
 
 ### Margin Account
 
 A margin account contains a collateral account, a position account and its current broker, identified by user's ethereum address. Margin accounts are isolated between different perpetuals.
 
-Every trader has to deposit before interacting with exchange or amm contract. Trades within system doesn't trigger real eth/erc20 transfer, but update the balance in their margin accounts.
+Every trader has to deposit before interacting with Exchange or AMM contract. Trades within system doesn't trigger real eth/erc20 transfer, but update the balance in their margin accounts.
 
 #### Collateral Account
 
@@ -56,7 +56,7 @@ Broker, specified by trader, is a kind of special user doing jobs of matching of
 
 ### Exchange
 
-Exchange contract focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and amm. 
+Exchange contract focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and AMM. 
 
 
 ### AMM
