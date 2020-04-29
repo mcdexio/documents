@@ -78,8 +78,6 @@ Funding payment for each position of all users is the same for a period of time.
 AccumulatedFundingPerContract:+= Acc / (8*3600), where Acc is accumulated funding payment per position since lastFundingTime
 ```
 
-so that the entry price and exit price of the EMA can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches. Check Implementation of Funding Rate for details.
-
 In order to calculate the ACC, consider that the funding rate will cross up to 4 special boundary values (-GovMarkPremiumLimit, -GovFundingDampener, +GovFundingDampener, +GovMarkPremiumLimit). 4 points segment the curve into 5 parts, so that the calculation can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches.
 
 ![funding-segments](asset/perpetual-funding-segments.png)
