@@ -37,11 +37,11 @@ PremiumRate: (MarkPrice - LastIndexPrice) / LastIndexPrice
 FundingRate: Maximum(GovFundingDampener, PremiumRate) + Minimum(-GovFundingDampener, PremiumRate)
 ```
 
-The funding rate can be considered as EMA with clip and dampener. Blue: premium rate without clip. Yellow: premium rate. Green: final funding rate.
+The funding rate can also be considered as `EMAPremium / LastIndexPrice` with clip and dampener. Blue: premium rate without clip. Yellow: premium rate. Green: final funding rate.
 
 ![funding-dampener](asset/perpetual-funding-dampener.png)
 
-Note that we treat the funding rate as changing every second, so that the function image is a discontinuous function.
+Note that we treat the funding rate as changing every second, so that the function image is a discontinuous curve.
 
 ## Funding payment
 
