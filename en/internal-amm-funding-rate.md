@@ -8,7 +8,7 @@ A positive Funding rate means longs (long position holders) pay to fund shorts (
 
 ## Fair price
 
-MCDEX uses the "Mid Price" of the on-chain AMM as the "Fair Price". The mechanism behind this is very similar to Uniswap, and is covered in (this document)[how-to-add-liquidity-to-amm.md].
+MCDEX uses the "Mid Price" of the on-chain AMM as the "Fair Price". The mechanism behind this is very similar to Uniswap, and is covered in [this document](how-to-add-liquidity-to-amm.md).
 
 ## EMA of premium
 
