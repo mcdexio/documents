@@ -1,13 +1,13 @@
 # The On-Chain Contract and Off-Chain Order Book Architecture
 
 With the on-chain AMM and off-chain order book running at the same time, MCDEX users have two trading choices:
-* Trade with AMM
-* Trade with order book
 
 | Trading method        | Advantages | Disadvantages |
 |-----------------------|------------|---------------|
 | Trade with AMM        | Fully decentralized trading. Can be called by another contract<br>Simple & intuitive UX | Potential risk of worse slippage |
 | Trade with Order book | Better liquidity<br>Similar experience with Perpetual on centralized exchanges | Off-chain order book |
+
+This hybrid architecture is shown in the figure below:
 
 ![mai2-arch](asset/mai2-arch.png)
 
