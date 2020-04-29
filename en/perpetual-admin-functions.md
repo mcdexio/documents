@@ -7,7 +7,7 @@ Only admin can call the following functions. The main purpose includes:
   * Switch into "Emergency" status which (1) stops tradings and withdraws, (2) sets the global settlement price
   * Correct hacked (ex: Oracle price hack) data in "Emergency" status
 
-Due to the importance of global liquidation, MCDEX will establish a community-led governance committee as soon as possible, and the committee will develop detailed global liquidation trigger mechanisms and processing procedures.
+**Due to the importance of global liquidation, MCDEX will establish a community-led governance committee as soon as possible, and the committee will develop detailed global liquidation trigger mechanisms and processing procedures.**
 
 ## Perpetual
 
