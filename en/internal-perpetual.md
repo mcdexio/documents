@@ -373,4 +373,4 @@ Set the broker. The broker takes effect after GovBrokerLockBlockCount blocks (in
 
 The possible broker can be:
 * Liquidity Pool: Indicate that the user wants to trade with AMM
-* Exchange Relayer: A relayer is used by an off-chain orderbook to send the Match information to on-chain domain. This kind of broker is a common ETH address.
+* Exchange Relayer: A relayer is used by an off-chain order book to send the Match information to on-chain domain. This kind of broker is a common ETH address.

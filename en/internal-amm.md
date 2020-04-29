@@ -67,7 +67,7 @@ Any ETH account can provide liquidity into the Liquidity Pool by calling AddLiqu
 ## Operations
 
 ### CreatePool(Amount)
-Create the pool. Can called by anyone.
+Create the pool. Can be called by anyone.
 
 Require:
 - PositionSize == 0 && PoolAvailableMargin == 0
@@ -83,7 +83,7 @@ Steps:
 - Funding()
 
 ### BuyFromPool(Amount, LimitPrice, Deadline)
-The trader buy/long. Can called by anyone.
+The trader buy/long. Can be called by anyone.
 
 Steps:
 - Calculate the trading price: Price = PoolAvailableMargin / (PositionSize - Amount)
@@ -104,7 +104,7 @@ Require:
 - Sender.IsSafe = True
 
 ### SellToPool(Amount, LimitPrice, Deadline)
-The trader sell/short. Can called by anyone.
+The trader sell/short. Can be called by anyone.
 
 Steps:
 - Calculate the trading price: Price = PoolAvailableMargin / (PositionSize + Amount)
@@ -124,7 +124,7 @@ Require:
 - Trader.IsSafe = True
 
 ### AddLiquidity(Amount)
-Add liquidity to the LiquidityPool. Can called by anyone.
+Add liquidity to the LiquidityPool. Can be called by anyone.
 
 The unit of "Amount" is contract.
 
@@ -150,7 +150,7 @@ Require:
 
 ### RemoveLiquidity(ShareAmount)
 
-Remove liquidity from LiquidityPool. Can called by anyone.
+Remove liquidity from LiquidityPool. Can be called by anyone.
 
 Steps:
 - Let Price = PoolAvailableMargin / PositionSize, 
@@ -171,7 +171,7 @@ Require:
 
 ### UpdateIndex()
 
-Save the IndexPrice from the Oracle in order to let the AMM update-to-date. Can called by anyone.
+Save the IndexPrice from the Oracle in order to let the AMM update-to-date. Can be called by anyone.
 
 Steps:
 1. If IndexPrice != LastIndexPrice, transfer GovUpdateIndexPrize collateral from Dev into Sender
@@ -180,7 +180,7 @@ Steps:
 
 ### Funding()
 
-Update the FundingRate. Can called by anyone.
+Update the FundingRate. Can be called by anyone.
 
 Steps:
 1. If LastFundingTime == 0 THEN

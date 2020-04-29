@@ -1,6 +1,6 @@
 # Perpetual Architecture
 
-The Mai Protocol V2 protocol is mainly composed of three parts: Perpetual, AMM and Exchange. The Perpetual contract stores data of margin accounts including collaterals and positions. The Exchange contract implements "match" interface for orderbook trading, similar to what Mai protocol V1 achieved. The AMM contract implements a Uniswap-like interface for user to directly interact with contract.
+The Mai Protocol V2 is mainly composed of three parts: Perpetual, AMM and Exchange. The Perpetual contract stores data of margin accounts including collaterals and positions. The Exchange contract implements "match" interface for order book trading, similar to what Mai protocol V1 achieved. The AMM contract implements a Uniswap-like interface for user to directly interact with contract.
 
 ![mai2-arch](asset/mai2-arch.png)
 
@@ -60,7 +60,7 @@ Broker, specified by trader, is a kind of special user doing jobs of matching of
 
 Governance maintains all parameters required for running a perpetual contract, including risk parameters, addresses, status and so on.
 
-Governance configuations contains entries below:
+Governance configurations contains entries below:
 
 ```solidity
 struct PerpGovernanceConfig {
@@ -97,12 +97,12 @@ struct OrderParam {
 
 ### AMM
 
-AMM contract provides methods to add / remove liquidity and trading without orderbook. It can easily be called by other contract to build fresh application.
+AMM contract provides methods to add / remove liquidity and trading without order book. It can easily be called by other contract to build fresh application.
 
-Trader could give proper price limit and deadline to get full controll of a trade. Instead of partial fill, if price is getting higher than price limit parameter, the transaction will fail.
+Trader could give proper price limit and deadline to get full control of a trade. Instead of partial fill, if price is getting higher than price limit parameter, the transaction will fail.
 
 ### Global Config 
 
 Global config is a simple contract only used to set block delay of withdrawal and broker update.
 
-See _ for the design of time lock.
+See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/Perpetual#trade-with-the-order-book) for the design of time lock.
