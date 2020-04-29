@@ -1,6 +1,13 @@
 # Admin Functions
 
-Only admin can call the following functions in order to change the governance parameters.
+Only admin can call the following functions. The main purpose includes:
+* Change the governance parameters
+* Upgrade contract
+* Global liquidation, including:
+  * Switch into "Emergency" state which (1)stops tradings and withdraws, (2) sets the global settlement price
+  * Correct hacked (ex: Oracle price hack) data in "Emergency" state
+
+Due to the importance of global liquidation, MCDEX will establish a community-led governance committee as soon as possible, and the committee will develop detailed global liquidation trigger mechanisms and processing procedures.
 
 ## Perpetual
 
@@ -15,13 +22,13 @@ Only admin can call the following functions in order to change the governance pa
   * makerDevFeeRate: Maker fee rate that gives to the developer when using Exchange
   * lotSize: Minimum position size
   * tradingLotSize: Minimum position size when trading
-  * longSocialLossPerContracts: Social loss per each long position. Can only be called in the "emergency" status
-  * shortSocialLossPerContracts: Social loss per each short position. Can only be called in the "emergency" status
+  * longSocialLossPerContracts: Social loss per each long position. Can only be called in the "Emergency" status
+  * shortSocialLossPerContracts: Social loss per each short position. Can only be called in the "Emergency" status
 * Perpetual.setGovernanceAddress: Modify the Perpetual's parameters including:
   * amm: Set the AMM contract address
   * globalConfig: Set the GlobalConfig contract address
   * dev: Set the developer address that gathering fee from tradings
-* Perpetual.beginGlobalSettlement: Enter the "emergency" status with a "settlement price". In this status, all trades and withdrawals will be disabled until "endGlobalSettlement"
+* Perpetual.beginGlobalSettlement: Enter the "Emergency" status with a "settlement price". In this status, all trades and withdrawals will be disabled until "endGlobalSettlement"
 * Perpetual.setCashBalance: Modify account.cashBalance. Can only be called in the "global settlement" status
 * Perpetual.endGlobalSettlement: Enter the "global settlement" status. In this status, all traders can withdraw their MarginBalance
 * Perpetual.withdrawFromInsuranceFund: Withdraw insurance fund. Typically happen in the "global settlement" status
