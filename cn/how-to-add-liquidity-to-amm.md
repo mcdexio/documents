@@ -71,7 +71,7 @@ AMM的情况如下
 
 Alice向AMM增加1份合约的流动性:
 
-1. Alice与AMM以中间价10做空，则Alice的头寸变为-10，AMM的头寸变为11
+1. Alice与AMM以中间价10做空，则Alice的头寸变为-1，AMM的头寸变为11
 2. ALice向AMM转入10 * 1 * 2 = 20个抵押物代币
 
 完成后，Alice的保证金账户情况
