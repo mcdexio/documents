@@ -18,6 +18,7 @@ Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The ma
 ### Overview
 * [MCDEX references](https://mcdex.io/references/Perpetual)
 * [The Margin-Account Model](en/margin-account-model.md)
+* [Architecture](en/perpetual-architecture.md)
 * TODO: Matching Engine and the Exchange Contract
 * TODO: Security Design. Locks, Brokers
   
@@ -42,6 +43,9 @@ Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The ma
 * TODO: How To Build The Contract
 * [Contract Source Code](https://github.com/mcdexio/mai-protocol-v2)
 
+
+
+
 ## Mai Protocol V1 - MP Futures Docs
 
 MP Futures is an innovative financial tool with an expiration date. The leverage is set by the Cap and Floor price. Traders are able to gain exposure to crypto asset without taking custody of the underlying asset, by receiving cash settlement rather than the physical delivery.
@@ -50,4 +54,4 @@ MP Futures is an innovative financial tool with an expiration date. The leverage
 * [Mai: A Protocol for Trading Decentralized Derivatives](en/mai.md)
 * [An Introduction to Market Protocol](en/market-protocol.md)
 * [Contract Source Code](https://github.com/mcdexio/mai-protocol)
-* 
+
