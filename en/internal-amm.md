@@ -193,7 +193,7 @@ Steps:
    - Let funding variables up-to-date to IndexTimestamp (step 3-5). After that, LastFundingTime:= IndexTimestamp
    - Run step 3-5 again, so that LastFundingTime:= Now()
 3. If LastFundingTime != BlockTime THEN 
-   1. Calculate AccumulatedFundingRate: The following formula limit and dampener the Funding curve. The 4 points (-GovMarkPremiumLimit, -GovFundingDampener, +GovFundingDampener, +GovMarkPremiumLimit) segment the curve into 5 part, so that the entry price and exit price of the EMA can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches. Check [Implementation of Funding Rate](internal-amm-funding-rate.md) for details.
+   1. Calculate AccumulatedFundingRate: The following formula sigma the funding rate curve while considering the limit and dampener. The 4 points (-GovMarkPremiumLimit, -GovFundingDampener, +GovFundingDampener, +GovMarkPremiumLimit) segment the curve into 5 parts, so that the calculation can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches. Check [Implementation of Funding Rate](internal-amm-funding-rate.md) for details.
      - n:= BlockTime - LastFundingTime (the unit is second)
      - v0 = LastEMAPremium; vt = (LastEMAPremium - LastPremium) * Pow(GovEMAAlpha2, n) + LastPremium
      - vLimit = GovMarkPremiumLimit * LastIndexPrice
