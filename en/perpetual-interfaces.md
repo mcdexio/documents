@@ -22,7 +22,7 @@ struct CollateralAccount {
 }
 ```
 
-Check __ for details of how application mechanism protect orderbook trading.
+See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/Perpetual#trade-with-the-order-book) for the design of time lock.
 
 ```solidity
 deposit(uint256 amount) NORMAL
