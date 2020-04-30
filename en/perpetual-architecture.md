@@ -22,16 +22,6 @@ A collateral account holds all collateral deposited to the contract and its valu
 
 Note that deposited collateral is converted to a internal decimals presentation (default: fix float number with decimals == 18) then added to balance field.
 
-The storage structure is defined as:
-
-```solidity
-struct CollateralAccount {
-	int256 balance;
-	int256 appliedBalance;
-	uint256 appliedHeight;
-}
-```
-
 Balance is affected by depositing to contract and PNL of holding positions.
 
 AppliedBalance and appliedHeight they together 
@@ -40,17 +30,7 @@ AppliedBalance and appliedHeight they together
 
 #### PositionAccount
 
-A position account stores information of position owned by user. Properties of position account will be recalculated on every trading. A position account is defined as:
-
-```solidity
-struct PositionAccount {
-    Side side;
-    uint256 size;
-    uint256 entryValue;
-    int256 entrySocialLoss;
-    int256 entryFundingLoss;
-}
-```
+A position account stores information of position owned by user. Properties of position account will be recalculated on every trading. 
 
 #### Broker
 
@@ -60,20 +40,6 @@ Broker, specified by trader, is a kind of special user doing jobs of matching of
 
 Governance maintains all parameters required for running a perpetual contract, including risk parameters, addresses, status and so on.
 
-Governance configurations contains entries below:
-
-```solidity
-struct PerpGovernanceConfig {
-    uint256 initialMarginRate;
-    uint256 maintenanceMarginRate;
-    uint256 liquidationPenaltyRate;
-    uint256 penaltyFundRate;
-    int256 takerDevFeeRate;
-    int256 makerDevFeeRate;
-    uint256 lotSize;
-    uint256 tradingLotSize;
-}
-```
 Check design of perpetual for their details.
 
 ### Exchange
@@ -83,17 +49,6 @@ Exchange contract focuses on matching off-chain order for traders. It matches or
 Exchange will check price, properties and deadline of matching orders. Any unsatisfied condition will fail the whole transaction.
 
 Since the signature mechanism, matching call currently requires a third caller as broker.
-
-A typical order param is defined as:
-```solidity
-struct OrderParam {
-    address trader;
-    uint256 amount;
-    uint256 price;
-    bytes32 data;
-    LibSignature.OrderSignature signature;
-}
-```
 
 ### AMM
 
