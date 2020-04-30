@@ -14,7 +14,7 @@ Unlike traditional market makers, anyone can provide AMM with liquidity and incr
 
 Like ordinary traders, AMM has a margin account. There are collateral and long position in this margin account, and the algorithm of AMM makes the effective leverage of its long position is always less than 1, which also means that AMM's margin account is always fully collateralized and will not be liquidated. The collateral and long position in this margin account are also called AMM's inventory.
 
-![amm-add-liquidity](asset/amm-add-liquidity.png)
+![amm-add-liquidity](asset/amm-add-liquidity2.png)
 
 We use `y` to represent the number of long position in AMM, then the **AMM's Available Margin** is expressed as `x`
 
