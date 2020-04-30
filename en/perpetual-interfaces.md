@@ -198,7 +198,7 @@ Return current broker's address of given trader address. If last setting is not 
 setBroker(address broker)
 ```
 
-Set caller's broker to given account. 
+Set caller's broker to given account.
 
 ```solidity
 getBroker(address trader)
@@ -206,13 +206,143 @@ getBroker(address trader)
 
 Return broker storage of given account. For normal case, trader should call currentBroker instead.
 
-
 -----
 
 # Exchange
 
+Exchange protocol dose exchange between one taker and some makers. Traders sign for their order content and another actor named broker call match method for them, claiming trading fee from both side.
+
+```solidity
+    struct OrderParam {
+        address trader;
+        uint256 amount;
+        uint256 price;
+        bytes32 data;
+        OrderSignature signature;
+    }
+
+    struct Order {
+        address trader;
+        address broker;
+        address perpetual;
+        uint256 amount;
+        uint256 price;
+        bytes32 data;
+    }
+
+    matchOrders(
+        OrderParam memory takerOrderParam,
+        OrderParam[] memory makerOrderParams,
+        address perpetual,
+        uint256[] memory amounts
+    )
+```
+
+Length of parameter 'amounts' should equal to the length of 'makerOrderParams'.
+
+The matchOrders methods will try to match order from taker with each order from makers. If matched, taker will receive positions from maker, and collateral is paid to maker at the price maker asking for. Matched amount is exactly the same  as the amount in parameter 'amounts'.
+
+Some properties is encoded into data field:
+
+| Name           | Length (bytes) | Description                                                  |
+| -------------- | -------------- | ------------------------------------------------------------ |
+| Version        | 1              | supported protocol version. 1 = Mai Protocol V1, 2 = Mai Protocol V2 |
+| Side           | 1              | Side of order. 1 = short, other = long                       |
+| isMarketOrder  | 1              | 0 = limit order, 1 = market order                            |
+| expiredAt      | 5              | order expiration time in seconds                             |
+| asMakerFeeRate | 2              | (int16) maker fee rate (base 100,000)                        |
+| asTakerFeeRate | 2              | (int16) taker fee rate (base 100,000)                        |
+| deprecated     | 2              |                                                              |
+| salt           | 8              | salt                                                         |
+| isMakerOnly    | 1              | is maker only order                                          |
+| isInversed     | 1              | is for inversed contract. if true, price and side will be inversed in matching |
+| reserved       | 8              |                                                              |
 
 
+```solidity
+    matchOrderWithAMM(LibOrder.OrderParam memory takerOrderParam, address _perpetual, uint256 amount)
+```
 
+Match taker orders with amm. The main difference between this method and amm trading methods is that they require different broker setting.
+
+**Currently, broker CAN NOT profit from calling matchOrderWithAMM for trader like matchOrders. This method is designed for other purpose**
 
 # AMM
+
+AMM has some uniswap-like interfaces which allows trader to trade with internal assets pool.
+
+```solidity
+    createPool(uint256 amount)
+```
+
+Open asset pool by deposit to amm. Only available when pool is empty.
+
+```solidity
+    buy(uint256 amount, uint256 limitPrice, uint256 deadline)
+```
+
+Buy position from amm. It could be open or close or both based on which side of position a trader owns.
+
+LimitPrice is the upperbound of bid price. Deadline is a unix-timestamp in seconds. Any unsatisfied condition will fail trading transaction.
+
+```solidity
+    sell(uint256 amount, uint256 limitPrice, uint256 deadline)
+```
+
+Similar to buy, but limitPrice is the lowerbond of bid price.
+
+```solidity
+    addLiquidity(uint256 amount)
+```
+
+Add liquidity to amm asset pool. See design of amm for details.
+
+
+```solidity
+    removeLiquidity(uint256 shareAmount)
+```
+
+Remove liquidity to amm asset pool. See design of amm for details.
+
+
+```solidity
+    settleShare()
+```
+
+A special method to remove liquidity only works in settled status. Use a different equation to calculate how much collateral should be returned for a share.
+
+```solidity
+    updateIndex()
+```
+
+Update index variable in amm. Caller will get some reward determined by governance parameter.
+
+```solidity
+    shareTokenAddress()
+```
+
+Return address of share token for current amm. One deployed instance of share token is only available to one amm contract.
+
+```solidity
+    indexPrice()
+```
+
+Return index read from oracle, updated through updateIndex call.
+
+```solidity
+    currentFairPrice()
+    positionSize()
+    currentAvailableMargin()
+```
+
+Return position properties of amm contract.
+
+```solidity
+    lastFundingState()
+    lastFundingRate()
+    currentFundingState()
+    currentFundingRate()
+    currentAccumulatedFundingPerContract()
+```
+
+Return funding related variables.
