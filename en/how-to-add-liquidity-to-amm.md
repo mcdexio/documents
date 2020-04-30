@@ -53,13 +53,21 @@ From the above pricing formula, it can be concluded that the pricing of AMM is o
 
 The liquidity provider increases AMM's liquidity by adding inventory to AMM, increasing the value of AMM inventory quantity x and y. The following process is completed in single contract call:
 
-- Increase x: The Liquidity provider increases the number of AMM's long position (`x`) by Δx. To achieve this, the provider sells Δx contracts to AMM, at AMM's Mid Price (`x / y`).
+- Increase y: The Liquidity provider increases the number of AMM's long position (`y`) by Δy. To achieve this, the provider sells Δy contracts to AMM, at AMM's Mid Price (`x / y`).
 
-- Increase y: The liquidity provider transfers the collateral tokens directly from their margin account to AMM's margin account, the amount transferred is `2 ∙ Δx ∙ x / y`
+- Increase x: The liquidity provider transfers the collateral tokens directly from their margin account to AMM's margin account, the amount transferred is `2 ∙ Δy ∙ x / y`. So x increases `Δy ∙ x / y`
 
-The collateral transferred to AMM is divided into two equal parts, one part is used for the margin occupied by the new position of AMM, and the other part is used to increase the `AMM's Avaiable Margin`. It can be proved that after increasing the liquidity, AMM's `Mid Price = x / y` remains unchanged.
+The collateral transferred to AMM is divided into two equal parts, one part is used for the margin occupied by the new position of AMM, and the other part is used to increase the `AMM's Available Margin`. It can be proved that after increasing the liquidity, AMM's `Mid Price = x / y` remains unchanged.
 
 After adding liquidity, the provider will get AMM share tokens according to the amount of the inventory provided. Share tokens represent ownership of the remaining inventory in the liquidity pool. When remove liquidity of AMM, the liquidity provider can obtain the inventory in the liquidity pool (including the long position and margin balance) in proportion to the share tokens by redeeming the share tokens.
+
+Keep in mind that the ratio of new and old x, y, share is always the same when adding and removing liquidity:
+
+```
+ x     y     share
+--- = --- = -------
+ x'    y'    share'
+```
 
 It should be noted that since the provider sell contracts to AMM when adding liquidity, the position size of the provider will decrease. If the liquidity provider has no position before the operation, the position size in of the provider will become negative after the operation. On the other hand, due to the need to transfer collateral from the liquidity provider’s margin account to AMM's, if the provider originally has a position, the effective leverage of the position will normally increase due to the decrease of margin balance.
 
