@@ -20,7 +20,15 @@ npm install
 
 **Test**
 
-> Running unit tests is an optional step. It requires an ethereum node like ganache or testrpc.
+Running unit tests is an optional step. It requires an ethereum node like ganache or testrpc. There are some suggested parameters for ganache:
+
+```
+ganache-cli -p 8545 -g 1 -l 10000000 -e 100000000000000000000 -i 66 --allowUnlimitedContractSize
+```
+
+Ignoring contract size and large initial ether balance are required settings for running tests.
+
+Then run tests with:
 
 ```shell
 # run test
