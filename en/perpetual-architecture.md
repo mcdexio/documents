@@ -42,6 +42,8 @@ Governance maintains all parameters required for running a perpetual contract, i
 
 Check design of perpetual for their details.
 
+-----
+
 ### Exchange
 
 Exchange contract focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and AMM. 
@@ -50,11 +52,15 @@ Exchange will check price, properties and deadline of matching orders. Any unsat
 
 Since the signature mechanism, matching call currently requires a third caller as broker.
 
+-----
+
 ### AMM
 
 AMM contract provides methods to add / remove liquidity and trading without order book. It can easily be called by other contract to build fresh application.
 
 Trader could give proper price limit and deadline to get full control of a trade. Instead of partial fill, if price is getting higher than price limit parameter, the transaction will fail.
+
+-----
 
 ### Global Config 
 
