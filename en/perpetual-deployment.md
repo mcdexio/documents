@@ -45,8 +45,22 @@ Then run tests with:
 There are some hints if you want to customize your deployment:
 
 - Default we use a fake price feeder for test purpose, switch to what ever your like to use another feeder. Find out more in file migrations/6_chainlink_inverse_price.js and migrations/14_amm_eth.js;
-
 - Modify configuration in truffle.js to choose your target network;
+
+**Create Pool for AMM**
+
+```shell
+# create pool (inverse contract)
+vi scripts/addresses.js  # modify perpetualAddress to the value that the previous step printed
+./node_modules/.bin/truffle exec --network [network to deploy] scripts/create_pool_for_test_eth.js
+```
+
+This script will:
+* Use addresses[0] of ganache
+* Transfer some ETH into the Perpetual
+* Create a $100 pool
+
+If you want a different liquidity provider, you can modify "addresses[0]" in the js or modify the HDWalletProvider in truffle.js.
 
 **Done**
 
