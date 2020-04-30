@@ -66,96 +66,155 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
 需要注意的，由于向AMM添加流动性时会通过AMM做空，流动性提供者的头寸会下降。如果流动性提供者在操作前没有头寸，操作后流动性提供者的帐户中的头寸会变为空头。另一方面，由于需要从流动性提供者的保证金账户向AMM转入抵押物，如果提供者原来就有头寸，则由于保证金的减少，头寸的有效杠杆会上升。
 
 
-`例1` Alice的保证金账户情况如下
+`例1` 增加1份合约的流动性，如果Alice手上没有头寸
 
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-|  0 |  50       |  0    |
-
-AMM的情况如下
-
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y | 
-|:---:|:-----------:|:---------:|:---------:|
-| 10  |  100        |    200    | 10        |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice的保证金账户</th>
+    <th colspan="4">AMM的保证金账户</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>头寸</th>
+    <th>保证金余额</th>
+    <th>AMM份额</th>
+    <th>头寸(`y`)</th>
+    <th>AMM可用保证金(`x`)</th>
+    <th>保证金余额</th>
+    <th>中间价(`x/y`)</th>
+</tr>
+<tr>
+    <td align="center">Before</td>
+    <td align="center">0</td>
+    <td align="center">50</td>
+    <td align="center">0</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">200</td>
+    <td align="center">10</td>
+</tr>
+<tr>
+    <td align="center">After</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">220</td>
+    <td align="center">10</td>
+</tr>
+</tbody>
+</table>
 
 Alice向AMM增加1份合约的流动性:
 
 1. Alice与AMM以中间价10做空，则Alice的头寸变为-1，AMM的头寸变为11
-2. ALice向AMM转入10 * 1 * 2 = 20个抵押物代币
+2. Alice向AMM转入10 * 1 * 2 = 20个抵押物代币
 
-完成后，Alice的保证金账户情况
+`例2` 增加1份合约的流动性，如果Alice手上已有1份多头
 
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-|  -1|  30       |  1/11 |
-
-AMM的情况如下
-
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y |
-|:--:|:---------:|:---------:|:------:|
-| 11 |  110       |   220    | 10     |
-
-
-`例2` Alice的保证金账户情况如下
-
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-|  1 |  50       |  0    |
-
-AMM的情况如下
-
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y |
-|:--:|:---------:|:---------:|:------:|
-| 10 |  100       |   200    | 10     |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice的保证金账户</th>
+    <th colspan="4">AMM的保证金账户</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>头寸</th>
+    <th>保证金余额</th>
+    <th>AMM份额</th>
+    <th>头寸(`y`)</th>
+    <th>AMM可用保证金(`x`)</th>
+    <th>保证金余额</th>
+    <th>中间价(`x/y`)</th>
+</tr>
+<tr>
+    <td align="center">Before</td>
+    <td align="center" style="color: red">1</td>
+    <td align="center">50</td>
+    <td align="center">0</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">200</td>
+    <td align="center">10</td>
+</tr>
+<tr>
+    <td align="center">After</td>
+    <td align="center" style="color: red">0</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">220</td>
+    <td align="center">10</td>
+</tr>
+</tbody>
+</table>
 
 Alice向AMM增加1份合约的流动性:
 
 1. Alice与AMM以中间价10做空，则Alice的头寸变为0，AMM的头寸变为11
 2. ALice向AMM转入10 * 1 * 2 = 20个抵押物代币
 
-完成后，Alice的保证金账户情况
-
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-|  0 |  30       |  1/11 |
-
-AMM的情况如下
-
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y |
-|:--:|:---------:|:---------:|:------:|
-| 11 |  110       |   220    | 10     |
-
 这个例子里，Alice一开始就有1个多头头寸，经过添加操作，Alice没有头寸，相当于Alice将原有的多头头寸转移到了AMM里。
 
 
-`例3` Alice的保证金账户情况如下
+`例3` 增加1份合约的流动性，如果Alice手上已有1份空头
 
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-|  -1 |  50       |  0    |
-
-AMM的情况如下
-
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y |
-|:--:|:---------:|:---------:|:------:|
-| 10 |  100       |   200    | 10     |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice的保证金账户</th>
+    <th colspan="4">AMM的保证金账户</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>头寸</th>
+    <th>保证金余额</th>
+    <th>AMM份额</th>
+    <th>头寸(`y`)</th>
+    <th>AMM可用保证金(`x`)</th>
+    <th>保证金余额</th>
+    <th>中间价(`x/y`)</th>
+</tr>
+<tr>
+    <td align="center">Before</td>
+    <td align="center" style="color: red">-1</td>
+    <td align="center">50</td>
+    <td align="center">0</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">200</td>
+    <td align="center">10</td>
+</tr>
+<tr>
+    <td align="center">After</td>
+    <td align="center" style="color: red">-2</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">220</td>
+    <td align="center">10</td>
+</tr>
+</tbody>
+</table>
 
 Alice向AMM增加1份合约的流动性:
 
 1. Alice与AMM以中间价10做空，则Alice的头寸变为-2，AMM的头寸变为11
 2. ALice向AMM转入10 * 1 * 2 = 20个抵押物代币
-
-完成后，Alice的保证金账户情况
-
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-|  -2 |  30       |  1/11 |
-
-AMM的情况如下
-
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y |
-|:--:|:---------:|:---------:|:------:|
-| 11 |  110       |   220    | 10     |
 
 这个例子里，Alice一开始就有1个空头头寸，经过添加操作，Alice的空头头寸进一步增大
 

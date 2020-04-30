@@ -69,102 +69,158 @@ Keep in mind that the ratio of new and old x, y, share is always the same when a
  x'    y'    share'
 ```
 
-It should be noted that since the provider sell contracts to AMM when adding liquidity, the position size of the provider will decrease. If the liquidity provider has no position before the operation, the position size in of the provider will become negative after the operation. On the other hand, due to the need to transfer collateral from the liquidity provider’s margin account to AMM's, if the provider originally has a position, the effective leverage of the position will normally increase due to the decrease of margin balance.
+It should be noted that since the provider sells contracts to AMM when adding liquidity, the position size of the provider will decrease. If the liquidity provider has no position before the operation, the position size in of the provider will become negative after the operation. On the other hand, due to the need to transfer collateral from the liquidity provider’s margin account to AMM's, if the provider originally has a position, the effective leverage of the position will normally increase due to the decrease of margin balance.
 
 
-`Example 1` Alice ’s margin account is as follows
+`Example 1` Adds 1 contract liquidity if Alice has 0 position
 
-|Position Size| Margin Balance| Share of AMM|
-|:--:|:---------:|:-----:|
-|  0 |  50       |  0    |
-
-And AMM's margin account:
-
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
-|:---:|:-----------:|:---------:|:---------:|
-| 10  |  100        |    200    | 10        |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice's margin account</th>
+    <th colspan="4">AMM's margin account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>Position Size</th>
+    <th>Margin Balance</th>
+    <th>Share of AMM</th>
+    <th>Position Size(`y`)</th>
+    <th>AMM's Available Margin(`x`)</th>
+    <th>Margin Balance</th>
+    <th>Mid Price(`x/y`)</th>
+</tr>
+<tr>
+    <td align="center">Before</td>
+    <td align="center">0</td>
+    <td align="center">50</td>
+    <td align="center">0</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">200</td>
+    <td align="center">10</td>
+</tr>
+<tr>
+    <td align="center">After</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">220</td>
+    <td align="center">10</td>
+</tr>
+</tbody>
+</table>
 
 Alice adds 1 contract liquidity to AMM:
 
 1. Alice sells one contract to AMM at mid-price 10, then Alice's position size becomes -1 and AMM's position size becomes 11.
 2. Alice transfers 10 * 1 * 2 = 20 collateral tokens to AMM
 
-After the operation is completed, Alice's margin account
+`Example 2` Adds 1 contract liquidity if Alice has 1 long position
 
-|Position Size| Margin Balance| Share of AMM|
-|:--:|:---------:|:-----:|
-|  -1|  30       |  1/11 |
-
-And AMM's margin account:
-
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
-|:--:|:---------:|:---------:|:------:|
-| 11 |  110       |   220    | 10     |
-
-
-`Example 2` Alice ’s margin account is as follows
-
-|Position Size| Margin Balance| Share of AMM|
-|:--:|:---------:|:-----:|
-|  1 |  50       |  0    |
-
-And AMM's margin account:
-
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
-|:--:|:---------:|:---------:|:------:|
-| 10 |  100       |   200    | 10     |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice's margin account</th>
+    <th colspan="4">AMM's margin account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>Position Size</th>
+    <th>Margin Balance</th>
+    <th>Share of AMM</th>
+    <th>Position Size(`y`)</th>
+    <th>AMM's Available Margin(`x`)</th>
+    <th>Margin Balance</th>
+    <th>Mid Price(`x/y`)</th>
+</tr>
+<tr>
+    <td align="center">Before</td>
+    <td align="center" style="color: red">1</td>
+    <td align="center">50</td>
+    <td align="center">0</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">200</td>
+    <td align="center">10</td>
+</tr>
+<tr>
+    <td align="center">After</td>
+    <td align="center" style="color: red">0</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">220</td>
+    <td align="center">10</td>
+</tr>
+</tbody>
+</table>
 
 Alice adds 1 contract liquidity to AMM:
 
 1. Alice sells one contract to AMM at mid-price 10, then Alice's position size becomes 0 and AMM's position size becomes 11.
 2. Alice transfers 10 * 1 * 2 = 20 collateral tokens to AMM
 
-After the operation is completed, Alice's margin account
+In this example, Alice had a long position at the beginning. After the adding operation, Alice had no position. This means Alice transferred her position to AMM.
 
-|Position Size| Margin Balance| Share of AMM|
-|:--:|:---------:|:-----:|
-|  0 |  30       |  1/11 |
-
-And AMM's margin account:
-
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
-|:--:|:---------:|:---------:|:------:|
-| 11 |  110       |   220    | 10     |
+`Example 3` Adds 1 contract liquidity if Alice has 1 short position
 
 
-In this example, Alice had a long position at the beginning. After the adding operation, Alice had no position. This means Alice transfered her position to AMM.
-
-
-`Example 1` Alice ’s margin account is as follows
-
-|Position Size| Margin Balance| Share of AMM|
-|:--:|:---------:|:-----:|
-|  -1 |  50       |  0 |
-
-And AMM's margin account:
-
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
-|:--:|:---------:|:---------:|:------:|
-| 10 |  100       |   200    | 10     |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice's margin account</th>
+    <th colspan="4">AMM's margin account</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>Position Size</th>
+    <th>Margin Balance</th>
+    <th>Share of AMM</th>
+    <th>Position Size(`y`)</th>
+    <th>AMM's Available Margin(`x`)</th>
+    <th>Margin Balance</th>
+    <th>Mid Price(`x/y`)</th>
+</tr>
+<tr>
+    <td align="center">Before</td>
+    <td align="center" style="color: red">-1</td>
+    <td align="center">50</td>
+    <td align="center">0</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">200</td>
+    <td align="center">10</td>
+</tr>
+<tr>
+    <td align="center">After</td>
+    <td align="center" style="color: red">-2</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">220</td>
+    <td align="center">10</td>
+</tr>
+</tbody>
+</table>
 
 Alice adds 1 contract liquidity to AMM::
 
 1. Alice sells one contract to AMM at mid-price 10, then Alice's position size becomes -2 and AMM's position size becomes 11.
 2. Alice transfers 10 * 1 * 2 = 20 collateral tokens to AMM
-
-After the operation is completed, Alice's margin account
-
-
-|Position Size| Margin Balance| Share of AMM|
-|:--:|:---------:|:-----:|
-|  -2 |  30       |  1/11 |
-
-And AMM's margin account:
-
-
-|Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) | 
-|:--:|:---------:|:---------:|:------:|
-| 11 |  110       |   220    | 10     |
 
 In this example, Alice had a short position at the beginning. After the addition operation, Alice's short position further increased.
 
