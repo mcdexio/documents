@@ -434,10 +434,12 @@ Price = x / y = 12.1
 
 Alice will:
 1. Buys amount = 0.909 at price = 12.1
-2. Receives collateral:
-
 ```
-Collateral = 2 * Price * Amount = 22
+PNL = (EntryPrice - ExitPrice) * Amount = (10 - 12.1) * 0.909 = -1.909. This is PNL formula for short position
+```
+2. Receives collateral:
+```
+RemovedCollateral = 2 * Price * Amount = 22
 ```
 
 The total shares will be 10 from 11, satisfy:
@@ -494,7 +496,7 @@ The total shares will be 10 from 11, satisfy:
 <tr>
     <td align="center">After Remove</td>
     <td align="center">-0.091</td>
-    <td align="center">52</td>
+    <td align="center">50.091</td>
     <td align="center">0/10</td>
     <td align="center">9.09</td>
     <td align="center">110</td>

@@ -436,10 +436,12 @@ Price = x / y = 12.1
 
 相当于：
 1、本次Alice以12.1的单价与AMM做多0.909份
-2、Alice得到保证金：
-
 ```
-Collateral = 2 * Price * Amount = 22
+PNL = (EntryPrice - ExitPrice) * Amount = (10 - 12.1) * 0.909 = -1.909. 这是空头头寸的PNL公式
+```
+2、Alice得到保证金：
+```
+RemovedCollateral = 2 * Price * Amount = 22
 ```
 
 由于全局share从11下降到10，满足：
@@ -507,7 +509,7 @@ Collateral = 2 * Price * Amount = 22
 <tr>
     <td align="center">Remove后</td>
     <td align="center">-0.091</td>
-    <td align="center">52</td>
+    <td align="center">50.091</td>
     <td align="center">0/10</td>
     <td align="center">9.09</td>
     <td align="center">110</td>
