@@ -12,21 +12,25 @@
 
 ## AMM的保证金账户
 
-和普通的交易员一样，AMM具有一个保证金账户。这个保证金账户内只有保证金和多头头寸，且这个保证金账户的有效杠杆总是小于1，这也意味着AMM的保证金账户总是足额抵押的，用于不会被强制平仓。这个保证金账户里的保证金和多头头寸也称为AMM的存货。
+和普通的交易员一样，AMM具有一个保证金账户。这个保证金账户内有保证金和多头头寸，且这个保证金账户的有效杠杆总是小于1，这也意味着AMM的保证金账户总是足额抵押的，用于不会被强制平仓。这个保证金账户里的保证金和多头头寸也称为AMM的存货。
 
 我们用y表示AMM的多头头寸数量，则AMM的可用保证金(AMM's available margin)表示为x
 
 ```
-x = Margin Balance - y * Entry Price
+x = Cash Balance - y * Entry Price
 ```
-`Entry Price`是AMM进入多头的平均价格。上述公式保证了AMM头寸始终按`Entry Price`占用完全抵押的保证金，即1倍保证金。头寸占用之外的保证金作为AMM的可用保证金。
+`Cash Balance`是LP（Liquidity Provider）存入的抵押物。`Entry Price`是AMM进入多头的平均价格。上述公式保证了AMM头寸始终保持完全抵押，即1倍保证金。头寸占用之外的保证金作为AMM的可用保证金。
 
-（为什么多头头寸可以保持完全抵押：以ETH为例，假设当前价格为p1，则一旦存入的抵押物达到p1，则相当于拥有1 ETH。如果此后价格变为p2，则PNL公式能保证抵押物自动变为p2，仍然相当于1 ETH。有时人们把这一现象称为合成资产（Synthetic assets）。因此在Uniswap公式中存入p1 + 1ETH，可以等价为存入2 * p1并获得p1 + 1个多头头寸。）
+为什么多头头寸可以保持完全抵押：以ETH为例，假设当前价格为p1，则一旦存入的抵押物达到p1，则相当于拥有1 ETH。如果此后价格变为p2，则PNL公式能保证抵押物自动变为p2，仍然相当于1 ETH。有时人们把这一现象称为合成资产（Synthetic assets）。因此在Uniswap公式中存入(p1) + (1ETH)，可以等价为存入(2 * p1)并获得(p1) + (1个多头头寸)。
 
 值得注意的是，保证金账户按初始保证金率计算的可用保证金为
+
 ```
-Available Margin = Margin Balance - y * Mark Price * Initial Margin  > x
+Margin Balance = Cash Balance + PNL
+PNL = (Mark Price - Entry Price) * y, 当y是多头头寸
+Available Margin = Margin Balance - y * Mark Price * Initial Margin > x
 ```
+
 也就是说，AMM的可用保证金(AMM's available margin)总是小于账户的可用保证金(account's available margin)。
 
 x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变，则可以得出通过AMM交易的价格为：
@@ -53,7 +57,7 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
 
 转入AMM的抵押物分为相等的两部分，一部分用于AMM新增头寸占用的保证金，另一部分用于增加AMM的可用保证金。可以证明，增加流动性之后AMM中间价`Mid Price=x/y`保持不变。
 
-在添加流动性后，提供者会按提供的存货大小获得AMM的份额代币。份额代币表示流动池中剩余存货的所有权。在减少AMM的操作时，流动性提供者可以通过销毁份额代币，按比例获得流动性池中的存货（包括头寸和可用保证金）。
+在添加流动性后，提供者会按提供的存货大小获得AMM的份额代币。份额代币表示流动池中剩余存货的所有权。在减少AMM的操作时，流动性提供者可以通过销毁份额代币，按比例获得流动性池中的存货（包括头寸和保证金）。
 
 添加和减少流动性时，新旧x、y、share的比值相同：
 
@@ -63,7 +67,7 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
  x'    y'    share'
 ```
 
-需要注意的，由于向AMM添加流动性时会通过AMM做空，流动性提供者的头寸会下降。如果流动性提供者在操作前没有头寸，操作后流动性提供者的帐户中的头寸会变为空头。另一方面，由于需要从流动性提供者的保证金账户向AMM转入抵押物，如果提供者原来就有头寸，则由于保证金的减少，头寸的有效杠杆会上升。
+需要注意的是，由于向AMM添加流动性时会通过AMM做空，流动性提供者的头寸会下降。如果流动性提供者在操作前没有头寸，操作后流动性提供者的帐户中的头寸会变为空头。另一方面，由于需要从流动性提供者的保证金账户向AMM转入抵押物，如果提供者原来就有头寸，则由于保证金的减少，头寸的有效杠杆会上升。
 
 
 `例1` 增加1份合约的流动性，如果Alice手上没有头寸
@@ -73,7 +77,7 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
 <tr>
     <th></th>
     <th colspan="3">Alice的保证金账户</th>
-    <th colspan="4">AMM的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
 </tr>
 </thead>
 <tbody>
@@ -81,20 +85,18 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
     <th></th>
     <th>头寸</th>
     <th>保证金余额</th>
-    <th>AMM份额</th>
+    <th>AMM份额比例</th>
     <th>头寸(y)</th>
     <th>AMM可用保证金(x)</th>
-    <th>保证金余额</th>
     <th>中间价(x/y)</th>
 </tr>
 <tr>
     <td align="center">Add前</td>
     <td align="center">0</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/10</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -104,7 +106,6 @@ x和y也即AMM的存货数量。定价模型要求交易前后xy=k保持不变�
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -122,7 +123,7 @@ Alice向AMM增加1份合约的流动性:
 <tr>
     <th></th>
     <th colspan="3">Alice的保证金账户</th>
-    <th colspan="4">AMM的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
 </tr>
 </thead>
 <tbody>
@@ -130,20 +131,18 @@ Alice向AMM增加1份合约的流动性:
     <th></th>
     <th>头寸</th>
     <th>保证金余额</th>
-    <th>AMM份额</th>
+    <th>AMM份额比例</th>
     <th>头寸(y)</th>
     <th>AMM可用保证金(x)</th>
-    <th>保证金余额</th>
     <th>中间价(x/y)</th>
 </tr>
 <tr>
     <td align="center">Add前</td>
     <td align="center">1</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/10</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -153,7 +152,6 @@ Alice向AMM增加1份合约的流动性:
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -174,7 +172,7 @@ Alice向AMM增加1份合约的流动性:
 <tr>
     <th></th>
     <th colspan="3">Alice的保证金账户</th>
-    <th colspan="4">AMM的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
 </tr>
 </thead>
 <tbody>
@@ -182,10 +180,9 @@ Alice向AMM增加1份合约的流动性:
     <th></th>
     <th>头寸</th>
     <th>保证金余额</th>
-    <th>AMM份额</th>
+    <th>AMM份额比例</th>
     <th>头寸(y)</th>
     <th>AMM可用保证金(x)</th>
-    <th>保证金余额</th>
     <th>中间价(x/y)</th>
 </tr>
 <tr>
@@ -195,7 +192,6 @@ Alice向AMM增加1份合约的流动性:
     <td align="center">0</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -205,7 +201,6 @@ Alice向AMM增加1份合约的流动性:
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -216,7 +211,7 @@ Alice向AMM增加1份合约的流动性:
 1. Alice与AMM以中间价10做空，则Alice的头寸变为-2，AMM的头寸变为11
 2. ALice向AMM转入10 * 1 * 2 = 20个抵押物代币
 
-这个例子里，Alice一开始就有1个空头头寸，经过添加操作，Alice的空头头寸进一步增大
+这个例子里，Alice一开始就有1个空头头寸，经过添加操作，Alice的空头头寸进一步增大。
 
 
 ## 风险敞口和收益
@@ -228,7 +223,7 @@ Alice向AMM增加1份合约的流动性:
 <tr>
     <th></th>
     <th colspan="3">Alice的保证金账户</th>
-    <th colspan="4">AMM的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
     <th colspan="2">归属Alice的份额&ast;&ast;</th>
 </tr>
 </thead>
@@ -240,7 +235,6 @@ Alice向AMM增加1份合约的流动性:
     <th>AMM份额</th>
     <th>头寸(y)</th>
     <th>AMM可用保证金(x)</th>
-    <th>保证金余额</th>
     <th>中间价(x/y)</th>
     <th>多头</th>
     <th>保证金</th>
@@ -252,7 +246,6 @@ Alice向AMM增加1份合约的流动性:
     <td align="center">0</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
     <td align="center">0</td>
     <td align="center">0</td>
@@ -264,7 +257,6 @@ Alice向AMM增加1份合约的流动性:
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
     <td align="center">1</td>
     <td align="center">20</td>
@@ -272,14 +264,14 @@ Alice向AMM增加1份合约的流动性:
 </tbody>
 </table>
 
-&ast;&ast; AMM中归属Alice的多头 = = y * Alice的份额比例<br>
-&ast;&ast; AMM中归属Alice的保证金 = AMM保证金余额 * Alice的份额比例
+&ast;&ast; AMM中归属Alice的多头 = y * Alice的份额比例<br>
+&ast;&ast; AMM中归属Alice的保证金 = 2 * x * Alice的份额比例
 
 Alice的综合余额情况：
 
 |综合头寸| 综合保证金|
 |:------:|:---------:|
-|  1 - 1 = 0 |  20 + 30 = 50  |
+| -1 + 1 = 0 |  30 + 20 = 50  |
 
 综合余额与Alice最开始的保证金账户的情况的是一致的。这说明向AMM提供流动性只是将提供者的存货转移到了AMM的保证金账户里。
 
@@ -289,13 +281,60 @@ Alice的综合余额情况：
 
 交易价格：`p = 110 / (11 - 1) = 11`，这里先忽略手续费
 
+```
+y' = y - 1 = 10
+x' = x * y / y' = 110 * 11 / 10 = 121
+```
+
 交易完成后的AMM的情况如下：
 
-|头寸y| 可用保证金x | 保证金余额 | 中间价x/y | Alice的份额 | 归属Alice的多头 |归属Alice的保证金|
-|:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:---------------:|
-| 10 |  120         |    220    | 12        | 1/11        |       10/11     |  20             |
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
+    <th colspan="2">归属Alice的份额</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>头寸</th>
+    <th>保证金余额</th>
+    <th>AMM份额</th>
+    <th>头寸(y)</th>
+    <th>AMM可用保证金(x)</th>
+    <th>中间价(x/y)</th>
+    <th>多头</th>
+    <th>保证金</th>
+</tr>
+<tr>
+    <td align="center">Bob前</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">10</td>
+    <td align="center">11/11</td>
+    <td align="center">220/11</td>
+</tr>
+<tr>
+    <td align="center">Bob后</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">10</td>
+    <td align="center">121</td>
+    <td align="center">12.1</td>
+    <td align="center">10/11</td>
+    <td align="center">242/11</td>
+</tr>
+</tbody>
+</table>
 
-此时Alice的综合头寸为`10/11 - 1 = -0.0909`，综合头寸不为0，具有风险敞口。这个风险敞口直到另一个交易员与AMM做空1份合约后消失。
+此时Alice的综合头寸为`-1 + 10/11 = -0.09`，综合头寸不为0，具有风险敞口。这个风险敞口直到另一个交易员与AMM做空1份合约后消失。
 
 流动性提供者风险敞口的上限即为他添加到AMM中的存货的数量x与y。在实践中，流动性提供者可以监控链上AMM中的状态，当出现风险敞口时，提供者可以在其他交易所对风险敞口进行对冲，从而维持风险中性。
 
@@ -312,15 +351,35 @@ Alice的综合余额情况：
 1. 池子将归属提供者的保证金余额发送给流动性提供者
 2. 提供者通过池子做多，将归属提供者的多头份额“转移”给提供者，交易价格为中间价`x / y`
 
-`例1`，接“给AMM增加流动性”例1，此时如果Alice提取流动性，则提取完成后
+`例1`，接“给AMM增加流动性”例1，此时如果Alice提取所有流动性。此前Alice的份额是1 / 11。首先计算Alice消耗完份额需要交易多少头寸：
 
+```
+Price = x / y = 10
+Amount = y * (ShareAmount / TotalSupply) = 1
+```
+
+相当于：
+1、本次Alice以10的单价与AMM做多1份
+2、Alice得到保证金：
+
+```
+Collateral = 2 * Price * Amount = 20
+```
+
+由于全局share从11下降到10，满足：
+
+```
+ x = 110     y = 11     share = 11
+--------- = -------- = ------------ ∴ x' = 100, y' = 10
+    x'         y'       share' = 10
+```
 
 <table>
 <thead>
 <tr>
     <th></th>
     <th colspan="3">Alice的保证金账户</th>
-    <th colspan="4">AMM的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
 </tr>
 </thead>
 <tbody>
@@ -328,20 +387,18 @@ Alice的综合余额情况：
     <th></th>
     <th>头寸</th>
     <th>保证金余额</th>
-    <th>AMM份额</th>
-    <th>头寸(`y`)</th>
-    <th>AMM可用保证金(`x`)</th>
-    <th>保证金余额</th>
-    <th>中间价(`x/y`)</th>
+    <th>AMM份额比例</th>
+    <th>头寸(y)</th>
+    <th>AMM可用保证金(x)</th>
+    <th>中间价(x/y)</th>
 </tr>
 <tr>
     <td align="center">Add前</td>
     <td align="center">0</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/10</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -351,17 +408,15 @@ Alice的综合余额情况：
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 <tr>
     <td align="center">Remove后</td>
     <td align="center">0</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/11</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -369,25 +424,95 @@ Alice的综合余额情况：
 
 此时相当于还原到Alice的最初状态。
 
-`例2`, 接“风险敞口和收益”中的例子，如果当Bob交易完成后，Alice提取流动性，则提取完成后AMM的情况：
+`例2`, 接“风险敞口和收益”中的例子，如果当Bob交易完成后，Alice提取所有流动性。此前Alice的份额是1 / 11。首先计算Alice消耗完份额需要交易多少头寸：
 
-|头寸(`y`)| 可用保证金(`x`) | AMM保证金余额 | 中间价x/y | Alice的份额 | 归属Alice的多头(`y*share/total share`) |归属Alice的保证金(`x*share/total share`)|
-|:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:--------------:|
-| 10 |  110         |    200    | 12        | 0           |       0         |  0             |
+```
+Price = x / y = 12.1
+Amount = y * (ShareAmount / TotalSupply) = 0.909
+```
 
-此时，Alice的保证金账户情况如下：
+相当于：
+1、本次Alice以12.1的单价与AMM做多0.909份
+2、Alice得到保证金：
 
-|头寸| 保证金余额| AMM份额|
-|:--:|:---------:|:-----:|
-| -0.0909  |  50       |  0    |
+```
+Collateral = 2 * Price * Amount = 22
+```
+
+由于全局share从11下降到10，满足：
+
+```
+ x = 121     y = 10     share = 11
+--------- = -------- = ------------ ∴ x' = 110, y' = 9.09
+    x'         y'       share' = 10
+```
+
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice的保证金账户</th>
+    <th colspan="3">AMM的保证金账户</th>
+    <th colspan="2">归属Alice的份额</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>头寸</th>
+    <th>保证金余额</th>
+    <th>AMM份额</th>
+    <th>头寸(y)</th>
+    <th>AMM可用保证金(x)</th>
+    <th>中间价(x/y)</th>
+    <th>多头</th>
+    <th>保证金</th>
+</tr>
+<tr>
+    <td align="center">Add前</td>
+    <td align="center">0</td>
+    <td align="center">50</td>
+    <td align="center">0/10</td>
+    <td align="center">10</td>
+    <td align="center">100</td>
+    <td align="center">10</td>
+    <td align="center">0</td>
+    <td align="center">0</td>
+</tr>
+<tr>
+    <td align="center">Add后</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">10</td>
+    <td align="center">11/11</td>
+    <td align="center">220/11</td>
+</tr>
+<tr>
+    <td align="center">Bob后</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">10</td>
+    <td align="center">121</td>
+    <td align="center">12.1</td>
+    <td align="center">10/11</td>
+    <td align="center">242/11</td>
+</tr>
+<tr>
+    <td align="center">Remove后</td>
+    <td align="center">-0.091</td>
+    <td align="center">52</td>
+    <td align="center">0/10</td>
+    <td align="center">9.09</td>
+    <td align="center">110</td>
+    <td align="center">12.1</td>
+    <td align="center">0</td>
+    <td align="center">0</td>
+</tr>
+</tbody>
+</table>
 
 可以看到由于Bob的交易，造成Alice具有-0.0909份合约的风险敞口，这个风险敞口在提取流动性后依旧存在，也就是说提取流动性不改变提供者的风险敞口。提供者可以在之后平仓头寸关闭风险敞口。
-
-
-
-
-
-
-
-
-

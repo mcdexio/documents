@@ -12,22 +12,24 @@ Unlike traditional market makers, anyone can provide AMM with liquidity and incr
 
 ## AMM's Margin Account
 
-Like ordinary traders, AMM has a margin account. There are only margin balances and long position in this margin account, and the algorithm of AMM makes the effective leverage of its long position is always less than 1, which also means that AMM margin account is always fully collateralized and will not be liquidation. The margin balance and long position in this margin account are also called AMM's inventory.
+Like ordinary traders, AMM has a margin account. There are collateral and long position in this margin account, and the algorithm of AMM makes the effective leverage of its long position is always less than 1, which also means that AMM's margin account is always fully collateralized and will not be liquidation. The collateral and long position in this margin account are also called AMM's inventory.
 
 We use `y` to represent the number of long position in AMM, then the **AMM's Available Margin** is expressed as `x`
 
 ```
-x = Margin Balance - y * Entry Price
+x = Cash Balance - y * Entry Price
 ```
 
-`Entry Price` is the average price of AMM entering the long position. The above formula guarantees that AMM position will always be fully collateralized according to the Entry Price. The margin balance minus the position occupancy is used as the available margin for AMM.
+`Cash Balance` is the collateral that LP (Liquidity Provider) deposited. `Entry Price` is the average price of AMM entering the long position. The above formula guarantees that AMM position will always be fully collateralized. The cash balance minus the position occupancy is used as the available margin for AMM.
 
-(Why a long position can be kept fully collateralized: Taking ETH as an example, assuming the current price is p1, once the deposited collateral reaches p1, it is equivalent to having 1 ETH. If the price thereafter becomes p2, the PNL formula can guarantee that the collateral automatically becomes p2, which is still equivalent to 1 ETH. Sometimes people call this phenomenon as Synthetic assets. Therefore, depositing p1 + 1ETH in the Uniswap formula can be equivalent to deposit 2 * p1 and get p1 + 1 long position.)
+Why a long position can be kept fully collateralized: Taking ETH as an example, assuming the current price is p1, once the deposited collateral reaches p1, it is equivalent to having 1 ETH. If the price thereafter becomes p2, the PNL formula can guarantee that the collateral automatically becomes p2, which is still equivalent to 1 ETH. Sometimes people call this phenomenon as Synthetic assets. Therefore, depositing (p1) + (1ETH) in the Uniswap formula can be equivalent to deposit (2 * p1) and get (p1) + (1 long position).
 
 It is worth noting that the available margin calculated by the margin account at the initial margin rate is
 
 ```
-Available Margin = Margin Balance - y * Mark Price * Initial Margin  > x
+Margin Balance = Cash Balance + PNL
+PNL = (Mark Price - Entry Price) * y, if y is long position
+Available Margin = Margin Balance - y * Mark Price * Initial Margin > x
 ```
 
 This means that the **AMM's Available Margin** is alway less than the **Account's Available Margin**.
@@ -47,8 +49,6 @@ For more mathematical derivation of AMM's pricing formula, please refer to [here
 
 From the above pricing formula, it can be concluded that the pricing of AMM is only related to the inventory quantity x and y of AMM. When the product k of xy is larger, the lower the slippage given by the pricing formula, resulting in a better liquidity. So adding liquidity to AMM means increasing the values ​​of x and y.
 
-
-
 ## Add liquidity to AMM
 
 The liquidity provider increases AMM's liquidity by adding inventory to AMM, increasing the value of AMM inventory quantity x and y. The following process is completed in single contract call:
@@ -59,7 +59,7 @@ The liquidity provider increases AMM's liquidity by adding inventory to AMM, inc
 
 The collateral transferred to AMM is divided into two equal parts, one part is used for the margin occupied by the new position of AMM, and the other part is used to increase the `AMM's Available Margin`. It can be proved that after increasing the liquidity, AMM's `Mid Price = x / y` remains unchanged.
 
-After adding liquidity, the provider will get AMM share tokens according to the amount of the inventory provided. Share tokens represent ownership of the remaining inventory in the liquidity pool. When remove liquidity of AMM, the liquidity provider can obtain the inventory in the liquidity pool (including the long position and margin balance) in proportion to the share tokens by redeeming the share tokens.
+After adding liquidity, the provider will get AMM share tokens according to the amount of the inventory provided. Share tokens represent ownership of the remaining inventory in the liquidity pool. When remove liquidity of AMM, the liquidity provider can obtain the inventory in the liquidity pool (including the long position and cash balance) in proportion to the share tokens by redeeming the share tokens.
 
 Keep in mind that the ratio of new and old x, y, share is always the same when adding and removing liquidity:
 
@@ -79,7 +79,7 @@ It should be noted that since the provider sells contracts to AMM when adding li
 <tr>
     <th></th>
     <th colspan="3">Alice's margin account</th>
-    <th colspan="4">AMM's margin account</th>
+    <th colspan="3">AMM's margin account</th>
 </tr>
 </thead>
 <tbody>
@@ -87,20 +87,18 @@ It should be noted that since the provider sells contracts to AMM when adding li
     <th></th>
     <th>Position Size</th>
     <th>Margin Balance</th>
-    <th>Share of AMM</th>
+    <th>Share Ratio</th>
     <th>Position Size(y)</th>
     <th>AMM's Available Margin(x)</th>
-    <th>Margin Balance</th>
     <th>Mid Price(x/y)</th>
 </tr>
 <tr>
     <td align="center">Before</td>
     <td align="center">0</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/10</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -110,7 +108,6 @@ It should be noted that since the provider sells contracts to AMM when adding li
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -128,7 +125,7 @@ Alice adds 1 contract liquidity to AMM:
 <tr>
     <th></th>
     <th colspan="3">Alice's margin account</th>
-    <th colspan="4">AMM's margin account</th>
+    <th colspan="3">AMM's margin account</th>
 </tr>
 </thead>
 <tbody>
@@ -136,20 +133,18 @@ Alice adds 1 contract liquidity to AMM:
     <th></th>
     <th>Position Size</th>
     <th>Margin Balance</th>
-    <th>Share of AMM</th>
+    <th>Share Ratio</th>
     <th>Position Size(y)</th>
     <th>AMM's Available Margin(x)</th>
-    <th>Margin Balance</th>
     <th>Mid Price(x/y)</th>
 </tr>
 <tr>
     <td align="center">Before</td>
     <td align="center">1</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/10</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -159,7 +154,6 @@ Alice adds 1 contract liquidity to AMM:
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -180,7 +174,7 @@ In this example, Alice had a long position at the beginning. After the adding op
 <tr>
     <th></th>
     <th colspan="3">Alice's margin account</th>
-    <th colspan="4">AMM's margin account</th>
+    <th colspan="3">AMM's margin account</th>
 </tr>
 </thead>
 <tbody>
@@ -188,10 +182,9 @@ In this example, Alice had a long position at the beginning. After the adding op
     <th></th>
     <th>Position Size</th>
     <th>Margin Balance</th>
-    <th>Share of AMM</th>
+    <th>Share Ratio</th>
     <th>Position Size(y)</th>
     <th>AMM's Available Margin(x)</th>
-    <th>Margin Balance</th>
     <th>Mid Price(x/y)</th>
 </tr>
 <tr>
@@ -201,7 +194,6 @@ In this example, Alice had a long position at the beginning. After the adding op
     <td align="center">0</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -211,7 +203,6 @@ In this example, Alice had a long position at the beginning. After the adding op
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -233,7 +224,7 @@ Simply providing liquidity to AMM does not increase the risk exposure of provide
 <tr>
     <th></th>
     <th colspan="3">Alice's margin account</th>
-    <th colspan="4">AMM's margin account</th>
+    <th colspan="3">AMM's margin account</th>
     <th colspan="2">Attributable to Alice&ast;&ast;</th>
 </tr>
 </thead>
@@ -245,10 +236,9 @@ Simply providing liquidity to AMM does not increase the risk exposure of provide
     <th>Share of AMM</th>
     <th>Position Size (y)</th>
     <th>AMM's Available Margin (x)</th>
-    <th>Margin Balance</th>
     <th>Mid Price (x/y)</th>
     <th>Position</th>
-    <th>Margin balance</th>
+    <th>Collateral</th>
 </tr>
 <tr>
     <td align="center">Before</td>
@@ -257,7 +247,6 @@ Simply providing liquidity to AMM does not increase the risk exposure of provide
     <td align="center">0</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
     <td align="center">0</td>
     <td align="center">0</td>
@@ -269,7 +258,6 @@ Simply providing liquidity to AMM does not increase the risk exposure of provide
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
     <td align="center">1</td>
     <td align="center">20</td>
@@ -278,13 +266,13 @@ Simply providing liquidity to AMM does not increase the risk exposure of provide
 </table>
 
 &ast;&ast; Position attributable to Alice = y * share ratio<br>
-&ast;&ast; Margin balance attributable \* to Alice = AMM's margin balance * share ratio
+&ast;&ast; Collateral attributable to Alice = 2 * x * share ratio
 
 Alice's overall balance:
 
 |Overall Position| Overall Margin Balance|
 |:------:|:---------:|
-|  1 - 1 = 0 |  20 + 30 = 50  |
+| -1 + 1 = 0 |  30 + 20 = 50  |
 
 The overall balance is consistent with Alice’s origin margin account. It shows that providing liquidity to AMM only means transfering the provider's inventory to AMM's margin account.
 
@@ -304,7 +292,7 @@ The situation of AMM after the trade is as follows:
 <tr>
     <th></th>
     <th colspan="3">Alice's margin account</th>
-    <th colspan="4">AMM's margin account</th>
+    <th colspan="3">AMM's margin account</th>
     <th colspan="2">Attributable to Alice</th>
 </tr>
 </thead>
@@ -316,7 +304,6 @@ The situation of AMM after the trade is as follows:
     <th>Share of AMM</th>
     <th>Position Size (y)</th>
     <th>AMM's Available Margin (x)</th>
-    <th>Margin Balance</th>
     <th>Mid Price (x/y)</th>
     <th>Position</th>
     <th>Margin balance</th>
@@ -328,7 +315,6 @@ The situation of AMM after the trade is as follows:
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
     <td align="center">11/11</td>
     <td align="center">220/11</td>
@@ -340,22 +326,14 @@ The situation of AMM after the trade is as follows:
     <td align="center">1/11</td>
     <td align="center">10</td>
     <td align="center">121</td>
-    <td align="center">221</td>
     <td align="center">12.1</td>
     <td align="center">10/11</td>
-    <td align="center">221/11</td>
+    <td align="center">242/11</td>
 </tr>
 </tbody>
 </table>
 
-
-||Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
-|--|:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:---------------:|
-| Before Bob | 11 |  110         |    220    | 10        | 1/11        |       10/11     |  20             |
-| After Bob  | 10 |  120         |    220    | 12        | 1/11        |       10/11     |  20             |
-
-
-At this time, Alice's overall position size is `10/11-1 = -0.0909`, which is NOT 0. As a result, Alice has the risk exposure of -0.0909 contract until another trader sell 1 contract to AMM.
+At this time, Alice's overall position size is `-1 + 10/11 = -0.09`, which is NOT 0. As a result, Alice has the risk exposure of -0.0909 contract until another trader sell 1 contract to AMM.
 
 The upper limit of the provider's risk exposure is the quantity x and y of the inventory he/her adds to the AMM. In practice, the provider can monitor the status of AMM. When risk exposure occurs, the provider can hedge the risk exposure on other exchanges to maintain risk neutrality.
 
@@ -373,15 +351,35 @@ The liquidity provider can withdraw its share in the pool at any time. When remo
 1. AMM transfers the margin balance attributable to the provider.
 2. The provider buys contracts from AMM at the middle price `x / y`. The trade amount is equal to the long position size attributable to the provider in AMM.
 
-`Example 1` followed by Example 1 of "Add Liquidity to AMM", if Alice remove liquidity at this time, after the operation is completed:
+`Example 1` followed by Example 1 of "Add Liquidity to AMM", if Alice remove liquidity at this time, Alice's share was 1 / 11, we first calculate how many positions Alice needs to trade after consuming all shares.
 
+```
+Price = x / y = 10
+Amount = y * (ShareAmount / TotalSupply) = 1
+```
+
+Alice will:
+1. Buys amount = 1 at price = 10
+2. Receives collateral:
+
+```
+Collateral = 2 * Price * Amount = 20
+```
+
+The total shares will be 10 from 11, satisfy:
+
+```
+ x = 110     y = 11     share = 11
+--------- = -------- = ------------ ∴ x' = 100, y' = 10
+    x'         y'       share' = 10
+```
 
 <table>
 <thead>
 <tr>
     <th></th>
     <th colspan="3">Alice's margin account</th>
-    <th colspan="4">AMM's margin account</th>
+    <th colspan="3">AMM's margin account</th>
 </tr>
 </thead>
 <tbody>
@@ -389,20 +387,18 @@ The liquidity provider can withdraw its share in the pool at any time. When remo
     <th></th>
     <th>Position Size</th>
     <th>Margin Balance</th>
-    <th>Share of AMM</th>
-    <th>Position Size(`y`)</th>
-    <th>AMM's Available Margin(`x`)</th>
-    <th>Margin Balance</th>
-    <th>Mid Price(`x/y`)</th>
+    <th>Share Ratio</th>
+    <th>Position Size(y)</th>
+    <th>AMM's Available Margin(x)</th>
+    <th>Mid Price(x/y)</th>
 </tr>
 <tr>
     <td align="center">Before add</td>
     <td align="center">0</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/10</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 <tr>
@@ -412,17 +408,15 @@ The liquidity provider can withdraw its share in the pool at any time. When remo
     <td align="center">1/11</td>
     <td align="center">11</td>
     <td align="center">110</td>
-    <td align="center">220</td>
     <td align="center">10</td>
 </tr>
 <tr>
     <td align="center">After remove</td>
     <td align="center">0</td>
     <td align="center">50</td>
-    <td align="center">0</td>
+    <td align="center">0/11</td>
     <td align="center">10</td>
     <td align="center">100</td>
-    <td align="center">200</td>
     <td align="center">10</td>
 </tr>
 </tbody>
@@ -430,7 +424,85 @@ The liquidity provider can withdraw its share in the pool at any time. When remo
 
 This is equivalent to reverting to Alice's original state.
 
-`Example 2` followed by the example in "Risk Exposure and Revenue", if Alice removes liquidity after Bob's transaction is completed, then the AMM's margin account:
+`Example 2` followed by the example in "Risk Exposure and Revenue", if Alice removes liquidity after Bob's transaction is completed, Alice's share was 1 / 11, we first calculate how many positions Alice needs to trade after consuming all shares.
+
+```
+Price = x / y = 12.1
+Amount = y * (ShareAmount / TotalSupply) = 0.909
+```
+
+Alice will:
+1. Buys amount = 0.909 at price = 12.1
+2. Receives collateral:
+
+```
+Collateral = 2 * Price * Amount = 22
+```
+
+The total shares will be 10 from 11, satisfy:
+
+```
+ x = 121     y = 10     share = 11
+--------- = -------- = ------------ ∴ x' = 110, y' = 9.09
+    x'         y'       share' = 10
+```
+
+<table>
+<thead>
+<tr>
+    <th></th>
+    <th colspan="3">Alice's margin account</th>
+    <th colspan="3">AMM's margin account</th>
+    <th colspan="2">Attributable to Alice</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th></th>
+    <th>Position Size</th>
+    <th>Margin Balance</th>
+    <th>Share of AMM</th>
+    <th>Position Size (y)</th>
+    <th>AMM's Available Margin (x)</th>
+    <th>Mid Price (x/y)</th>
+    <th>Position</th>
+    <th>Margin balance</th>
+</tr>
+<tr>
+    <td align="center">Before Bob</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">11</td>
+    <td align="center">110</td>
+    <td align="center">10</td>
+    <td align="center">11/11</td>
+    <td align="center">220/11</td>
+</tr>
+<tr>
+    <td align="center">After Bob</td>
+    <td align="center">-1</td>
+    <td align="center">30</td>
+    <td align="center">1/11</td>
+    <td align="center">10</td>
+    <td align="center">121</td>
+    <td align="center">12.1</td>
+    <td align="center">10/11</td>
+    <td align="center">242/11</td>
+</tr>
+<tr>
+    <td align="center">After Remove</td>
+    <td align="center">-0.091</td>
+    <td align="center">52</td>
+    <td align="center">0/10</td>
+    <td align="center">9.09</td>
+    <td align="center">110</td>
+    <td align="center">12.1</td>
+    <td align="center">0</td>
+    <td align="center">0</td>
+</tr>
+</tbody>
+</table>
 
 |Position Size(`y`)| AMM's Available Margin(`x`) | Margin Balance | Mid Price(`x/y`) |  Alice's shares | Position attributable to Alice | Margin Balance attributable to Alice |
 |:--:|:------------:|:---------:|:---------:|:-----------:|:---------------:|:--------------:|
