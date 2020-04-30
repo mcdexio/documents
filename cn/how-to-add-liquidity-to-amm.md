@@ -14,7 +14,7 @@
 
 和普通的交易员一样，AMM具有一个保证金账户。这个保证金账户内有保证金和多头头寸，且这个保证金账户的有效杠杆总是小于1，这也意味着AMM的保证金账户总是足额抵押的，用于不会被强制平仓。这个保证金账户里的保证金和多头头寸也称为AMM的存货。
 
-![amm-add-liquidity](../en/asset/amm-add-liquidity2.png)
+![amm-add-liquidity](../en/asset/amm-add-liquidity3.png)
 
 我们用y表示AMM的多头头寸数量，则AMM的可用保证金(AMM's available margin)表示为x
 
