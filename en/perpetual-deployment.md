@@ -39,7 +39,7 @@ Then run tests with:
 
 ```shell
 # deploy
-./node_modules/.bin/truffle migrate --network [network to deploy]
+./node_modules/.bin/truffle migrate --network [network to deploy] --migrations_directory migrations
 ```
 
 There are some hints if you want to customize your deployment:
