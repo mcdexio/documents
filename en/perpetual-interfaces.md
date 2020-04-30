@@ -30,13 +30,13 @@ deposit(uint256 amount) NORMAL
 Deposit transfer collaterals from caller's address to contract. It accept an amount parameter which indicates the total amount of collaterals that user wants to transfer to contract.
 Approval is required;
 
-**amount should be a fixed float with token's decimals which will be convert to a decimals-18 representation. E.g. Jim depoist 1e6 usdt, later he will found 1e18 collaterals in his account of mai protocol v2. This only affects internal calculation*
+**amount should be a fixed float with token's decimals which will be convert to a decimals-18 representation. E.G. Jim deposits 1e6 USDT, later he will found 1e18 collaterals in his account of Mai protocol v2. This only affects internal calculation*
 
 ```solidity
 depositEther() NORMAL
 ```
 
-Ether version of deposit, using msg.value instead. See description above for details. When using ether, the decimals will be automaticly set to 18.
+Ether version of deposit, using msg.value instead. See description above for details. When using ether, the decimals will be automatically set to 18.
 
 ```solidity
 applyForWithdrawal(uint256 amount) NORMAL
@@ -48,7 +48,7 @@ Request for further withdrawal of caller's account. This method functions like a
 withdraw(uint256 amount) NORMAL
 ```
 
-Withdraw given amount collateral back to caller's ethereum address. Note that withdraw doesn't distinguish bewteen erc20 and ether.
+Withdraw given amount collateral back to caller's ethereum address. Note that withdraw doesn't distinguish between erc20 and ether.
 
 ```solidity
 settle() SETTLED
@@ -70,9 +70,9 @@ Deposit collaterals from caller's address to contract. The funds will not go to 
 
 **Interact with positions:**
 
-There do exists interface to manipulate position and collateral for trading purpose, but basicly the perpetual contract does not directly handle trading request from user. It only provider interfaces for whitelisted callers like **exchange** and **amm** contract.
+There do exists interface to manipulate position and collateral for trading purpose, but basically the perpetual contract does not directly handle trading request from user. It only provider interfaces for whitelisted callers like **exchange** and **amm** contract.
 
-Calling trade method of perpetual may break contraints that long position should always equals to short positions.
+Calling trade method of perpetual may break constraints that long position should always equals to short positions.
 
 The only interface available to a typical trader is:
 
@@ -99,7 +99,7 @@ totalSize(Side side)
 
 Return total size of positions. Side has 3 available value: FLAT(0), SHORT(1) and LONG(2).
 
-*The contraint is that totalSize(SHORT) should always be equal to totalSize(LONG) and totalSize(FLAT) should always be zero.*
+*The constraint is that totalSize(SHORT) should always be equal to totalSize(LONG) and totalSize(FLAT) should always be zero.*
 
 ```solidity
 socialLossPerContract(Side side)
@@ -111,15 +111,15 @@ Return social loss per contract of given side. Normally, the value of each side 
 positionMargin(address guy)
 ```
 
-> Methods of calcuating position value requires mark price from amm contract. This price will be replaced by settlement price set by administrator in settlement status (SETTLING, SETTLED).
+> Methods of calculating position value requires mark price from amm contract. This price will be replaced by settlement price set by administrator in settlement status (SETTLING, SETTLED).
 
 ```solidity
 maintenanceMargin(address guy)
 ```
 
-Return maintainance margin value of account base on current mark price. The value should always be lower than initial margin value.
+Return maintenance margin value of account base on current mark price. The value should always be lower than initial margin value.
 
-If the current value of positions falls below maintainance margin, the account will go into a status called 'unsafe'. An unsafe account can be liquidated by any trader within the same perpetual to prevent possible loss.
+If the current value of positions falls below maintenance margin, the account will go into a status called 'unsafe'. An unsafe account can be liquidated by any trader within the same perpetual to prevent possible loss.
 
 When the value falls below zero, the account is 'bankrupt'.
 
@@ -157,14 +157,14 @@ These three test method is used to test current status of an account.
 insuranceFundBalance()
 ```
 
-Insurance fund is chaimed from liquidation penaty and will be used to recover social loss.
+Insurance fund is claimed from liquidation penalty and will be used to recover social loss.
 
 
 ```soldiity
 liquidate(address guy, uint256 maxAmount) public returns (uint256, uint256) NORMAL SETTLING
 ```
 
-Liquidate bites a part of position from an unsafe account (See ___ for definition of unsafe) to make it safe again. The call should have enough margin to hold the biten positions or the call will fail.
+Liquidate bites a part of position from an unsafe account (See ___ for definition of unsafe) to make it safe again. The call should have enough margin to hold the bitten positions or the call will fail.
 
 All losses generated by liquidate will be removed from insurance fund first if possible, or the loss will become social loss.
 
@@ -179,7 +179,7 @@ To receive trading fee, a broker must assign positive maker/taker fee rate in or
 There are two typically value of broker:
 
 - broker is set to a contract call who calls match method of exchange methods (orderbook trading);
-- broker is set to address of amm (perpetual proxy acturally) to enable amm trading.
+- broker is set to address of amm (perpetual proxy actually) to enable amm trading.
 
 Trader cannot apply both the trading modes above since the broker variable can hold exactly one address at the same time.
 
