@@ -14,6 +14,8 @@
 
 和普通的交易员一样，AMM具有一个保证金账户。这个保证金账户内有保证金和多头头寸，且这个保证金账户的有效杠杆总是小于1，这也意味着AMM的保证金账户总是足额抵押的，用于不会被强制平仓。这个保证金账户里的保证金和多头头寸也称为AMM的存货。
 
+![amm-add-liquidity](asset/amm-add-liquidity.png)
+
 我们用y表示AMM的多头头寸数量，则AMM的可用保证金(AMM's available margin)表示为x
 
 ```
@@ -43,6 +45,8 @@ x和y也即AMM的存货数量。定价模型要求交易前后`x · y = k`保持
 当交易员通过AMM做多时，AMM的多头头寸(`y`)下降，AMM的可用保证金(`x`)会上升，这个过程是消耗多头头寸存货的过程。
 
 当交易员通过AMM做空时，AMM的多头头寸(`y`)上升，AMM的可用保证金(`x`)会下降，这个过程是消耗AMM可用保证金存货的过程。
+
+![amm-xyk](asset/amm-xyk.png)
 
 更多关于AMM的定价公式的数学推导，可以参见[这里](https://mcdex.io/references/Perpetual#automated-market-maker)。
 

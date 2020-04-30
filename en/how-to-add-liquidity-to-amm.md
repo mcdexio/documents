@@ -14,6 +14,8 @@ Unlike traditional market makers, anyone can provide AMM with liquidity and incr
 
 Like ordinary traders, AMM has a margin account. There are collateral and long position in this margin account, and the algorithm of AMM makes the effective leverage of its long position is always less than 1, which also means that AMM's margin account is always fully collateralized and will not be liquidated. The collateral and long position in this margin account are also called AMM's inventory.
 
+![amm-add-liquidity](asset/amm-add-liquidity.png)
+
 We use `y` to represent the number of long position in AMM, then the **AMM's Available Margin** is expressed as `x`
 
 ```
@@ -44,6 +46,8 @@ The price to sell Δy contracts to AMM: P( Δy ) = x / ( y + Δy )
 When a trader goes long through AMM, the long position size of AMM (`y`) drops and the `AMM's Available Margin (x)` of will rise. This process consumes the long position inventory.
 
 When a trader goes short through AMM, the long position size of AMM (`y`) rises and the `AMM's Available Margin (x)`will fall. This process consumes the AMM's available margin inventory.
+
+![amm-xyk](asset/amm-xyk.png)
 
 For more mathematical derivation of AMM's pricing formula, please refer to [here](https://mcdex.io/references/Perpetual#automated-market-maker)。
 
