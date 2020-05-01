@@ -91,7 +91,7 @@ NOTE: require GovTradingLotSize = GovLotSize * PositiveIntegers
 - MaintenanceMarginRate:= GovMaintenanceMarginRate
 - AvgEntryPrice:=
   - PositionSize > 0: EntryValue / PositionSize. Note that this value is inexhaustible, which introduces errors. So we need delay the division until the final calculation
-  - PositionSize == 0: Meaningless (The formulas that reference to AvgEntryPrice only read AvgEntryPrice when PositionSize > 0 时才需要读取 AvgEntryPrice), return 0 here
+  - PositionSize == 0: Meaningless (The formulas that reference to AvgEntryPrice only read AvgEntryPrice when PositionSize > 0), return 0 here
 - PositionMargin:= MarkPrice * PositionSize * IMRate
 - MaintenanceMargin:= MarkPrice * PositionSize * MMRate
 - SocialLoss
