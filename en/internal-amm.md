@@ -32,7 +32,7 @@ Any ETH account can provide liquidity into the Liquidity Pool by calling AddLiqu
 ### Governance
 - GovPoolFeeRate: Fee rate of trading volume to share holders
 - GovPoolDevFeeRate: Fee rate of trading volume to the Governance Committee
-- GovEMAAlpha: The weight of EMA (exponential moving average). EMA_t = GovEMAAlpha * newVal + (1 - GovEMAAlpha) * EMA_(t-1). ex: in order to average samples = 30，alpha = 2/(30+1)=6.45%. We also cache this following values
+- GovEMAAlpha: The weight of EMA (exponential moving average). EMA_t = GovEMAAlpha * newVal + (1 - GovEMAAlpha) * EMA_(t-1). ex: in order to average samples = 30，alpha = 2/(30+1)=6.45%. We also cache the following values:
   - GovEMAAlpha2 = 1 - GovEMAAlpha
   - GovEMAAlpha2Ln = Ln(1 - GovEMAAlpha)
 - GovUpdateIndexPrize: The prize (the unit is collateral) of who calling updateIndex()
