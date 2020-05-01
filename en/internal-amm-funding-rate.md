@@ -8,17 +8,17 @@ A positive Funding rate means longs (long position holders) pay to fund shorts (
 
 ## Fair price
 
-MCDEX uses the "Mid Price" of the on-chain AMM as the "Fair Price". The mechanism behind this is very similar to Uniswap, and is covered in [this document](how-to-add-liquidity-to-amm.md).
+MCDEX uses the "Mid Price" of the on-chain AMM as the `FairPrice`. The mechanism behind this is very similar to Uniswap, and is covered in [this document](how-to-add-liquidity-to-amm.md).
 
 ## EMA of premium
 
-The Mark Price is derived using both the Index and the Fair Price, by adding to the Index the 600 seconds exponential moving average (EMA) of the Fair Price - MCDEX Index.
+The `MarkPrice` is derived using both the `LastIndex` and the `FairPrice`, by adding to the Index the 600 seconds exponential moving average (EMA) of the `Fair Price - LastIndex`.
 
 We can rewrite the recursive formula of EMA as a general term, so as to calculate the final result since the last on-chain state.
 
 [![{EMA}_t(V) = \alpha V+(1-\alpha) {EMA}_{t-1}=(1-\alpha)^n(a-v)+v, where~a = EMA_0](asset/perpetual-funding-ema.gif)](https://www.codecogs.com/eqnedit.php?latex={EMA}_t(V)&space;=&space;\alpha&space;V&plus;(1-\alpha)&space;{EMA}_{t-1}=(1-\alpha)^n(a-v)&plus;v,&space;where~a&space;=&space;EMA_0)
 
-So we can define the EMAPremium as:
+So we can define the `EMAPremium` as:
 
 ```
 LastIndexPrice := Read the oracle
@@ -37,7 +37,7 @@ PremiumRate: (MarkPrice - LastIndexPrice) / LastIndexPrice
 FundingRate: Maximum(GovFundingDampener, PremiumRate) + Minimum(-GovFundingDampener, PremiumRate)
 ```
 
-The funding rate can also be considered as `EMAPremium / LastIndexPrice` with clip and dampener. Blue: premium rate without clip. Yellow: premium rate. Green: final funding rate.
+The `FundingRate` can also be considered as `EMAPremium / LastIndexPrice` with clip and dampener. Blue: premium rate without clip. Yellow: premium rate. Green: final funding rate.
 
 ![funding-dampener](asset/perpetual-funding-dampener.png)
 
@@ -45,13 +45,13 @@ Note that we treat the funding rate as changing every second, so that the functi
 
 ## Funding payment
 
-The FundingRate is defined as a 8-hour interest rate. User's payment depends on the holding time.
+The `FundingRate` is defined as a 8-hour interest rate. User's payment depends on the holding time.
 
 ```
 FundingPayment: The collateral paid/received = FundingRate * IndexPrice * PositionSize * HoldPositionTimeSpan / 8hours
 ```
 
-Since the smart contract cannot actually be executed once per second, the contract will accumulate all values since the last on-chain state each time it is executed in a transaction. For example, the last recording time was LastFundingTime, then this accumulation interval is [LastFundingTime, block.time). The value of current second is not accumulated, so the formula can support multiple transactions in a block.
+Since the smart contract cannot actually be executed once per second, the contract will accumulate all values since the last on-chain state each time it is executed in a transaction. For example, the last recording time was `LastFundingTime`, then this accumulation interval is [LastFundingTime, block.time). The value of current second is not accumulated, so the formula can support multiple transactions in a block.
 
 [![\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)+v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}+v(y-x)](asset/perpetual-funding-ema-sigma.gif)](https://www.codecogs.com/eqnedit.php?latex=\sum_{i=x}^{y-1}{(1-\alpha)^n(a-v)&plus;v}=\frac{((1-\alpha)^x-(1-\alpha)^y)(a-v)}{\alpha}&plus;v(y-x))
 
@@ -61,7 +61,7 @@ So sigma between [x, y) is:
 R(x, y) = (LastEMAPremium - LastPremium)*(Pow(1 - GovEMAAlpha, x) - Pow(1 - GovEMAAlpha, y))/(GovEMAAlpha) + LastPremium * (y - x)
 ```
 
-We also need to know when premiumRate has reached the damper and limit. Solve the t from equation:
+We also need to know when `PremiumRate` has reached the damper and limit. Solve the `t` from equation:
 
 [![markPriceWithoutClip = index + emaPremium \newline premiumRateWithoutClip = \frac{markPriceWithoutClip - index}{index} \newline premiumRateWithoutClip = someRatio \newline \rightarrow t = Log_{1-\alpha}{\frac{lastPremium - index\cdot someRatio}{lastPremium - a}}](asset/perpetual-funding-ema-time.gif)](https://www.codecogs.com/eqnedit.php?latex=markPriceWithoutClip&space;=&space;index&space;&plus;&space;emaPremium&space;\newline&space;premiumRateWithoutClip&space;=&space;\frac{markPriceWithoutClip&space;-&space;index}{index}&space;\newline&space;premiumRateWithoutClip&space;=&space;someRatio&space;\newline&space;\rightarrow&space;t&space;=&space;Log_{1-\alpha}{\frac{lastPremium&space;-&space;index\cdot&space;someRatio}{lastPremium&space;-&space;a}})
 
@@ -72,13 +72,13 @@ T(y) = Log(1 - GovEMAAlpha, (y-LastPremium)/(v0-LastPremium)), ceiling to intege
 
 ## Accumulated funding payment
 
-Funding payment for each position of all users is the same for a period of time. So in the contract we recorded the cumulative payment for each position since the creation of the Perpetual contract.
+`FundingPayment` for each position of all users is the same for a period of time. So in the contract we recorded the cumulative payment for each position since the creation of the `Perpetual` contract.
 
 ```
 AccumulatedFundingPerContract:+= Acc / (8*3600), where Acc is accumulated funding payment per position since lastFundingTime
 ```
 
-In order to calculate the ACC, consider that the funding rate will cross up to 4 special boundary values (-GovMarkPremiumLimit, -GovFundingDampener, +GovFundingDampener, +GovMarkPremiumLimit). 4 points segment the curve into 5 parts, so that the calculation can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches.
+In order to calculate the `Acc`, consider that the funding rate will cross up to 4 special boundary values (`-GovMarkPremiumLimit`, `-GovFundingDampener`, `+GovFundingDampener`, `+GovMarkPremiumLimit`). 4 points segment the curve into 5 parts, so that the calculation can be arranged into 5 * 5 = 25 cases. In order to reduce the amount of calculation, the code is expanded into 25 branches.
 
 ![funding-segments](asset/perpetual-funding-segments.png)
 
