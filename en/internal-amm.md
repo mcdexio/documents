@@ -25,7 +25,7 @@ Any ETH account can provide liquidity into the Liquidity Pool by calling AddLiqu
 * Liquidity Pool adds some long positions
 * The provider adds some short positions
 * The provider gets some ShareToken(s) in order to record his liquidity ratio of the whole Liquidity Pool.
-* The provider now holds x short positions, and the share tokens imply he/she holds x long positions in the Liquidity Pool. So the net position = 0 which means currently he/she does not have any risk exposure.
+* The provider now holds `dy` short positions, and the share tokens imply he/she holds `dy` long positions in the Liquidity Pool. So the net position = 0 which means currently he/she does not have any risk exposure.
 
 ## Variables
 
