@@ -6,64 +6,86 @@ The Mai Protocol V2 is mainly composed of three parts: Perpetual, AMM and Exchan
 
 ## Perpetual
 
-Perpetual is the core of Mai Protocol V2 protocol. As mentioned above, it holds all assets owned by user, providing interfaces to manipulate balance and position. One Perpetual contract is exactly serving for one trading pair.
+> Perpetual is the core of Mai Protocol V2 protocol. As mentioned above, it holds all assets owned by user, providing interfaces to manipulate balance and position. One Perpetual contract is exactly serving for one trading pair.
+>
+> All assets of a trader are stored in his margin account, which contains a collateral account, a position account and its current broker, identified by user's ethereum address. Margin accounts are isolated between different perpetuals.
+>
+> Every trader has to deposit before interacting with Exchange or AMM contract. Trades within system doesn't trigger real eth/erc20 transfer, but update the balance in their margin accounts.
 
-All calculations taking price as parameter read price from AMM contract. 
+### Collateral.sol
 
-### Margin Account
-
-A margin account contains a collateral account, a position account and its current broker, identified by user's ethereum address. Margin accounts are isolated between different perpetuals.
-
-Every trader has to deposit before interacting with Exchange or AMM contract. Trades within system doesn't trigger real eth/erc20 transfer, but update the balance in their margin accounts.
-
-#### Collateral Account
-
-A collateral account holds all collateral deposited to the contract and its value can be affected by depositing and PNL (Profit-and-Loss) made from position trading.
+This contract provides low-layer functions of dealing with collaterals. The balance of an account may be affected both by depositing and PNL (Profit-and-Loss) made from position trading.
 
 Note that deposited collateral is converted to a internal decimals presentation (default: fix float number with decimals == 18) then added to balance field.
 
-Balance is affected by depositing to contract and PNL of holding positions.
+*In some of our documents, we call balance in collateral account as cash balance to distinguish from erc20 token balance.*
 
-AppliedBalance and appliedHeight they together 
+### Position.sol
 
-*For clarity, we will name the field balance in collateral account as cash balance to distinguish from erc20 token balance.*
+Similar to collateral account, this contract maintains position account for each trader and contains all position calculators required from the upper-layer contract.
 
-#### PositionAccount
+### Brokerage.sol
 
-A position account stores information of position owned by user. Properties of position account will be recalculated on every trading. 
+Broker contract implements a delayed broker setter to protect orderbook trading from front running.
 
-#### Broker
+### PerpetualGovernance.sol
 
-Broker, specified by trader, is a kind of special user doing jobs of matching off-chain order for order owner. When matching different orders, all the orders should have the same broker. 
-
-#### Governance
-
-Governance maintains all parameters required for running a perpetual contract, including risk parameters, addresses, status and so on.
+The governance contract holds all parameters required for running a perpetual contract, including risk parameters, addresses, and status.
 
 Check design of perpetual for their details.
 
+### Perpetual.sol
+
+This contract is the core of Mai Protocal V2. It combines all components above, serving as the foundation of Exchange and AMM.
+
+Calculation taking price as parameter reads price from AMM contract.
+
 -----
 
-### Exchange
+## Exchange
 
-Exchange contract focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and AMM. 
+> Exchange focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and AMM.
+>
+> A taker cannot match with makers and AMM at the same time.
 
-Exchange will check price, properties and deadline of matching orders. Any unsatisfied condition will fail the whole transaction.
+### Exchange.sol
 
-Since the signature mechanism, matching call currently requires a third caller as broker.
+Exchange contract implements methods exchanging between traders or between trader and AMM.
+
+Calling match method currently requires a caller as broker.
 
 ----
 
-### AMM
+## AMM
 
-AMM contract provides methods to add / remove liquidity and trading without order book. It can easily be called by other contract to build fresh application.
+> AMM provides methods to add / remove liquidity and trading without orderbook. It can be easily called from other contract to build new dapp.
+>
+> AMM is designed to be an upgradable contract to adapte algorithm udpate. Since all assets are actually stored in perpetual contract, the upgrade progress could be smooth and lossless.
 
-Trader could give proper price limit and deadline to get full control of a trade. Instead of partial fill, if price is getting higher than price limit parameter, the transaction will fail.
+### AMM.sol
+
+This contract serves three purpose: Uniswap-like trading, liquidation providing and funding rate calculation.
+
+Traders could trade through buy/sell methods, with limited price and deadline or provide liquidation to contract to earn trading fee.
+
+See design of AMM for more details of providing liquidation.
+
+### AMMGovernance.sol
+
+All parameters required by AMM goes here.
 
 -----
 
-### Global Config 
+## Others
+
+### GlobalConfig.sol
 
 Global config is a simple contract only used to set block delay of withdrawal and broker update.
 
 See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/Perpetual#trade-with-the-order-book) for the design of time lock.
+
+### PerpetualProxy.sol
+
+To implement an upgradable AMM, the address of new AMM should alway stay the same to inherit assets from former one.
+
+This contract plays as the role of address holder for AMM contract.
