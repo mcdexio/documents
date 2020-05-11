@@ -31,8 +31,8 @@ Only admin can call the following functions. The main purpose includes:
 * Perpetual.beginGlobalSettlement: Enter the "Emergency" status with a "settlement price". In this status, all trades and withdrawals will be disabled until "endGlobalSettlement"
 * Perpetual.setCashBalance: Modify account.cashBalance. Can only be called in the "global settlement" status
 * Perpetual.endGlobalSettlement: Enter the "global settlement" status. In this status, all traders can withdraw their MarginBalance
-* Perpetual.withdrawFromInsuranceFund: Withdraw from insurance fund. Typically happen in the "global settlement" status
-* Perpetual.depositToInsuranceFund: Deposit to insurance fund. Anyone including admin can call this
+* Perpetual.withdrawFromInsuranceFund: Withdraw collateral from insurance fund. Typically happen in the "global settlement" status
+* Perpetual.depositToInsuranceFund: Deposit collateral to insurance fund. Anyone is able to call this, but in most cases only admin calls this.
 
 ## AMM
 
