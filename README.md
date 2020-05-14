@@ -12,6 +12,8 @@ At present, there are two types of contracts live on MCDEX:
 
 ## Mai Protocol V2 - Perpetual Docs
 
+![https://github.com/mcdexio/mai-protocol-v2](https://img.shields.io/badge/github-mcdexio%2Fmai--protocol--v2-success)
+
 Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The market price is soft-pegged to the spot price of the underlying asset via a funding mechanism.
 
 ### User's Guid
@@ -42,6 +44,8 @@ Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The ma
 
 
 ## Mai Protocol V1 - MP Futures Docs
+
+![https://github.com/mcdexio/mai-protocol](https://img.shields.io/badge/github-mcdex%2Fmai--protocol-success)
 
 MP Futures is an innovative financial tool with an expiration date. The leverage is set by the Cap and Floor price. Traders are able to gain exposure to crypto asset without taking custody of the underlying asset, by receiving cash settlement rather than the physical delivery.
 
