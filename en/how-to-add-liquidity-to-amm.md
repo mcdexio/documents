@@ -49,8 +49,6 @@ When a trader goes short through AMM, the long position size of AMM (`y`) rises 
 
 ![amm-xyk](asset/amm-xyk.png)
 
-For more mathematical derivation of AMM's pricing formula, please refer to [here](https://mcdex.io/references/Perpetual#automated-market-maker)。
-
 From the above pricing formula, it can be concluded that the pricing of AMM is only related to the inventory quantity `x` and `y` of AMM. When the product `k = x · y` is larger, the lower the slippage given by the pricing formula, resulting in a better liquidity. So adding liquidity to AMM means increasing the values ​​of `x` and `y`.
 
 ## Add liquidity to AMM

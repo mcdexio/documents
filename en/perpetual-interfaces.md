@@ -1,6 +1,6 @@
 # Contract interfaces
 
-# Perpetual
+## Perpetual
 
 **Interact with collaterals (cash balance):**
 
@@ -111,7 +111,7 @@ Return social loss per contract of given side. Normally, the value of each side 
 positionMargin(address guy)
 ```
 
-> Methods of calculating position value requires mark price from amm contract. This price will be replaced by settlement price set by administrator in settlement status (SETTLING, SETTLED).
+Methods of calculating position value requires mark price from amm contract. This price will be replaced by settlement price set by administrator in settlement status (SETTLING, SETTLED).
 
 ```solidity
 maintenanceMargin(address guy)
@@ -208,7 +208,7 @@ Return broker storage of given account. For normal case, trader should call curr
 
 -----
 
-# Exchange
+## Exchange
 
 Exchange protocol dose exchange between one taker and some makers. Traders sign for their order content and another actor named broker call match method for them, claiming trading fee from both side.
 
@@ -267,9 +267,9 @@ Match taker orders with amm. The main difference between this method and amm tra
 
 **Currently, broker CAN NOT profit from calling matchOrderWithAMM for trader like matchOrders. This method is designed for other purpose**
 
-# AMM
+## AMM
 
-AMM has some uniswap-like interfaces which allows trader to trade with internal assets pool.
+AMM has some Uniswap-like interfaces which allows trader to trade with internal assets pool.
 
 ```solidity
     createPool(uint256 amount)

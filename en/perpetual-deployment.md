@@ -1,4 +1,4 @@
-# How to deploy contracts.
+# How to deploy contracts
 
 **Checkout contracts code from repository**
 

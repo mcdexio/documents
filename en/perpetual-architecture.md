@@ -6,11 +6,11 @@ The Mai Protocol V2 is mainly composed of three parts: Perpetual, AMM and Exchan
 
 ## Perpetual
 
-> Perpetual is the core of Mai Protocol V2 protocol. As mentioned above, it holds all assets owned by user, providing interfaces to manipulate balance and position. One Perpetual contract is exactly serving for one trading pair.
->
-> All assets of a trader are stored in his margin account, which contains a collateral account, a position account and its current broker, identified by user's ethereum address. Margin accounts are isolated between different perpetuals.
->
-> Every trader has to deposit before interacting with Exchange or AMM contract. Trades within system doesn't trigger real eth/erc20 transfer, but update the balance in their margin accounts.
+Perpetual is the core of Mai Protocol V2 protocol. As mentioned above, it holds all assets owned by user, providing interfaces to manipulate balance and position. One Perpetual contract is exactly serving for one trading pair.
+
+All assets of a trader are stored in his margin account, which contains a collateral account, a position account and its current broker, identified by user's ethereum address. Margin accounts are isolated between different perpetuals.
+
+Every trader has to deposit before interacting with Exchange or AMM contract. Trades within system doesn't trigger real eth/erc20 transfer, but update the balance in their margin accounts.
 
 ### Collateral.sol
 
@@ -40,13 +40,11 @@ This contract is the core of Mai Protocal V2. It combines all components above, 
 
 Calculation taking price as parameter reads price from AMM contract.
 
------
-
 ## Exchange
 
-> Exchange focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and AMM.
->
-> A taker cannot match with makers and AMM at the same time.
+Exchange focuses on matching off-chain order for traders. It matches orders between trader (known as maker and taker), or trader and AMM.
+
+A taker cannot match with makers and AMM at the same time.
 
 ### Exchange.sol
 
@@ -54,13 +52,11 @@ Exchange contract implements methods exchanging between traders or between trade
 
 Calling match method currently requires a caller as broker.
 
-----
-
 ## AMM
 
-> AMM provides methods to add / remove liquidity and trading without orderbook. It can be easily called from other contract to build new dapp.
->
-> AMM is designed to be an upgradable contract to adapte algorithm udpate. Since all assets are actually stored in perpetual contract, the upgrade progress could be smooth and lossless.
+AMM provides methods to add / remove liquidity and trading without order book. It can be easily called from other contract to build new DAPP.
+
+AMM is designed to be an upgradable contract to adapt algorithm update. Since all assets are actually stored in perpetual contract, the upgrade progress could be smooth and lossless.
 
 ### AMM.sol
 
@@ -73,8 +69,6 @@ See design of AMM for more details of providing liquidation.
 ### AMMGovernance.sol
 
 All parameters required by AMM goes here.
-
------
 
 ## Others
 
