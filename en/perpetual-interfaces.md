@@ -12,12 +12,12 @@ Return cash balance storage variables of guy, which is defined as:
 
 ```solidity
 struct CollateralAccount {
-    // currernt deposited erc20 token amount, representing in decimals 18
+    // current deposited erc20 token amount, representing in decimals 18
     int256 balance;
     // the amount of withdrawal applied by user
     // which allowed to withdraw in the future but not available in trading
     int256 appliedBalance;
-    // applied balance will be appled only when the block height below is reached
+    // applied balance will be applied only when the block height below is reached
     uint256 appliedHeight;
 }
 ```
@@ -213,29 +213,29 @@ Return broker storage of given account. For normal case, trader should call curr
 Exchange protocol dose exchange between one taker and some makers. Traders sign for their order content and another actor named broker call match method for them, claiming trading fee from both side.
 
 ```solidity
-    struct OrderParam {
-        address trader;
-        uint256 amount;
-        uint256 price;
-        bytes32 data;
-        OrderSignature signature;
-    }
+struct OrderParam {
+    address trader;
+    uint256 amount;
+    uint256 price;
+    bytes32 data;
+    OrderSignature signature;
+}
 
-    struct Order {
-        address trader;
-        address broker;
-        address perpetual;
-        uint256 amount;
-        uint256 price;
-        bytes32 data;
-    }
+struct Order {
+    address trader;
+    address broker;
+    address perpetual;
+    uint256 amount;
+    uint256 price;
+    bytes32 data;
+}
 
-    matchOrders(
-        OrderParam memory takerOrderParam,
-        OrderParam[] memory makerOrderParams,
-        address perpetual,
-        uint256[] memory amounts
-    )
+matchOrders(
+    OrderParam memory takerOrderParam,
+    OrderParam[] memory makerOrderParams,
+    address perpetual,
+    uint256[] memory amounts
+)
 ```
 
 Length of parameter 'amounts' should equal to the length of 'makerOrderParams'.
@@ -260,7 +260,7 @@ Some properties is encoded into data field:
 
 
 ```solidity
-    matchOrderWithAMM(LibOrder.OrderParam memory takerOrderParam, address _perpetual, uint256 amount)
+matchOrderWithAMM(LibOrder.OrderParam memory takerOrderParam, address _perpetual, uint256 amount)
 ```
 
 Match taker orders with amm. The main difference between this method and amm trading methods is that they require different broker setting.
@@ -272,13 +272,13 @@ Match taker orders with amm. The main difference between this method and amm tra
 AMM has some Uniswap-like interfaces which allows trader to trade with internal assets pool.
 
 ```solidity
-    createPool(uint256 amount)
+createPool(uint256 amount)
 ```
 
 Open asset pool by deposit to amm. Only available when pool is empty.
 
 ```solidity
-    buy(uint256 amount, uint256 limitPrice, uint256 deadline)
+buy(uint256 amount, uint256 limitPrice, uint256 deadline)
 ```
 
 Buy position from amm. It could be open or close or both based on which side of position a trader owns.
@@ -286,63 +286,63 @@ Buy position from amm. It could be open or close or both based on which side of 
 LimitPrice is the upperbound of bid price. Deadline is a unix-timestamp in seconds. Any unsatisfied condition will fail trading transaction.
 
 ```solidity
-    sell(uint256 amount, uint256 limitPrice, uint256 deadline)
+sell(uint256 amount, uint256 limitPrice, uint256 deadline)
 ```
 
 Similar to buy, but limitPrice is the lowerbond of bid price.
 
 ```solidity
-    addLiquidity(uint256 amount)
+addLiquidity(uint256 amount)
 ```
 
 Add liquidity to amm asset pool. See design of amm for details.
 
 
 ```solidity
-    removeLiquidity(uint256 shareAmount)
+removeLiquidity(uint256 shareAmount)
 ```
 
 Remove liquidity to amm asset pool. See design of amm for details.
 
 
 ```solidity
-    settleShare()
+settleShare()
 ```
 
 A special method to remove liquidity only works in settled status. Use a different equation to calculate how much collateral should be returned for a share.
 
 ```solidity
-    updateIndex()
+updateIndex()
 ```
 
 Update index variable in amm. Caller will get some reward determined by governance parameter.
 
 ```solidity
-    shareTokenAddress()
+shareTokenAddress()
 ```
 
 Return address of share token for current amm. One deployed instance of share token is only available to one amm contract.
 
 ```solidity
-    indexPrice()
+indexPrice()
 ```
 
 Return index read from oracle, updated through updateIndex call.
 
 ```solidity
-    currentFairPrice()
-    positionSize()
-    currentAvailableMargin()
+currentFairPrice()
+positionSize()
+currentAvailableMargin()
 ```
 
 Return position properties of amm contract.
 
 ```solidity
-    lastFundingState()
-    lastFundingRate()
-    currentFundingState()
-    currentFundingRate()
-    currentAccumulatedFundingPerContract()
+lastFundingState()
+lastFundingRate()
+currentFundingState()
+currentFundingRate()
+currentAccumulatedFundingPerContract()
 ```
 
 Return funding related variables.
