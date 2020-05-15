@@ -48,6 +48,8 @@ x和y也即AMM的存货数量。定价模型要求交易前后`x · y = k`保持
 
 ![amm-xyk](../en/asset/amm-xyk.png)
 
+（横坐标：Δy，纵坐标：给定成交量下的买价/卖价）
+
 更多关于AMM的定价公式的数学推导，可以参见[这里](https://mcdex.io/references/Perpetual#automated-market-maker)。
 
 从上面的定价公式可以看出，AMM的定价只与AMM的存货数量`x`和`y`相关，当`k = x · y`的乘积越大时，定价公式给出的滑点越低，流动性也越好。所以给AMM增加流动性也就是增加`x`和`y`的值。
