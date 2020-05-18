@@ -1,7 +1,20 @@
 # Roles and the Hybrid Architecture
 
-There're several roles in the Perpetual system including:
+## The Hybrid Architecture
+
+The Mai Protocol V2 is mainly composed of three parts: Perpetual, AMM and Exchange.
+* Perpetual: Stores data of margin accounts including collaterals and positions
+* AMM: Implements a Uniswap-like interface for user to directly interact with contract.
+* Exchange: Implements "match" interface for order book trading, similar to what Mai protocol V1 achieved
+
+This hybrid architecture is shown in the figure below:
+
+![mai2-arch](asset/mai2-arch.png)
+
+We will explain this architecture from the perspective of different roles:
+
 - [Roles and the Hybrid Architecture](#roles-and-the-hybrid-architecture)
+  - [The Hybrid Architecture](#the-hybrid-architecture)
   - [Traders](#traders)
   - [AMM](#amm)
   - [Off-chain Order Book](#off-chain-order-book)
@@ -11,18 +24,12 @@ There're several roles in the Perpetual system including:
 
 ## Traders
 
-Traders trade long or short positions in the system. With the on-chain AMM and off-chain order book running at the same time, traders have two trading choices:
+The trader first deposits collaterals into the `Perpetual`, then trades with `Exchange` or `AMM` to get his/her positions. With the on-chain AMM and off-chain order book running at the same time, traders have two trading choices:
 
 | Trading method        | Advantages | Disadvantages |
 |-----------------------|------------|---------------|
 | Trade with AMM        | Fully decentralized trading. Can be called by another contract<br>Simple & intuitive UX | Potential risk of worse slippage |
 | Trade with Order book | Better liquidity<br>Similar experience with Perpetual on centralized exchanges | Off-chain order book |
-
-This hybrid architecture is shown in the figure below:
-
-![mai2-arch](asset/mai2-arch.png)
-
-The trader first deposits collaterals into the `Perpetual`, then trades with `Exchange` or `AMM` to get his/her positions.
 
 ## AMM
 
