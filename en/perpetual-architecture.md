@@ -26,7 +26,7 @@ Similar to collateral account, this contract maintains position account for each
 
 ### Brokerage.sol
 
-Broker contract implements a delayed broker setter to protect orderbook trading from front running.
+Broker contract implements a delayed broker setter to protect order book trading from front running.
 
 ### PerpetualGovernance.sol
 
