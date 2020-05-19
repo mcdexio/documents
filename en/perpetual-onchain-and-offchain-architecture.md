@@ -19,6 +19,7 @@ We will explain this architecture from the perspective of different roles:
   - [AMM](#amm)
   - [Off-chain Order Book](#off-chain-order-book)
   - [Broker](#broker)
+  - [Liquidity Provider](#liquidity-provider)
   - [Oracle](#oracle)
   - [Admin](#admin)
 
@@ -51,6 +52,12 @@ The broker is the entry point for a trader to interact with the system. The brok
 
 For security reasons, MCDEX only allows traders to trade through one broker at the same time. Traders have to call "change broker" command to switch the broker.
 
+## Liquidity Provider
+
+We call the person who provides liquidity to AMM a Liquidity Provider. Anyone can provide AMM with liquidity and increase AMM's market making depth by adding inventory to AMM. Liquidity Providers are exposed to risks when imbalanced between long and short, and obtain trade fee income.
+
+Check [How to Add Liquidity to AMM](en/how-to-add-liquidity-to-amm.md) for details.
+
 ## Oracle
 
 Another key component is the decentralized oracle for obtaining the index price (spot price). After extensive research into decentralized oracle solutions, MCDEX team unanimously concluded that Chainlink's Price Reference Contracts are the best option in the market for sourcing and securing data. Chainlink already has an ETH/USD Price Reference Contract live on the Ethereum mainnet that is used and supported by several other top DeFi protocols. We are currently leveraging Chainlink's ETH/USD price feed as the index price for the ETH-PERP contract.
@@ -62,6 +69,6 @@ Admin is a special account who has power to:
 * Upgrade contract
 * Global liquidation
 
-Check [this doc](/en/perpetual-admin-functions.md) for all admin functions.
+Check [Admin Functions](/en/perpetual-admin-functions.md) for details.
 
 :warning: **Due to the importance of global liquidation, MCDEX will establish a community-led governance committee as soon as possible, and the committee will develop detailed global liquidation trigger mechanisms and processing procedures.**

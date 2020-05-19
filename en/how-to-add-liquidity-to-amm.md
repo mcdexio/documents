@@ -8,7 +8,7 @@ Because MCDEX Perpetual is [vanilla contract](https://mcdex.io/references/Perpet
 
 As a market participant, AMM's behavior is similar to traditional market makers: AMM gives bid and ask prices, and traders buy/long or sell/short with AMM. MCDEX Perpetual AMM currently uses a constant product pricing model. This is a pricing model that has been fully validated in Uniswap.
 
-Unlike traditional market makers, anyone can provide AMM with liquidity and increase AMM's market making depth by adding inventory to AMM. We call the person who provides liquidity to AMM a Liquidity Provider(LP). Liquidity Providers are exposed to risks when imbalanced between long and short, and obtain trade fee income.
+Unlike traditional market makers, anyone can provide AMM with liquidity and increase AMM's market making depth by adding inventory to AMM. We call the person who provides liquidity to AMM a Liquidity Provider. Liquidity Providers are exposed to risks when imbalanced between long and short, and obtain trade fee income.
 
 ## AMM's Margin Account
 
