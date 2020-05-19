@@ -46,7 +46,7 @@ Due to the current inefficiency of blockchain, the Hybrid model of off-chain mat
 
 ## Broker
 
-The broker is the entry point for a trader to interact with the system. The broker can either be:
+Broker is a actor who helps trader to accomplish trading. Each Trader can set his/her Broker. The broker can either be:
 * AMM
 * An order book relayer. The relayer is a ordinary ETH account who matches the orders in the order book, and sends transactions into the chain.
 
