@@ -22,7 +22,7 @@ struct CollateralAccount {
 }
 ```
 
-See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/Perpetual#trade-with-the-order-book) for the design of time lock.
+See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/#/en/perpetual?id=trade-with-the-order-book) for the design of time lock.
 
 ```solidity
 deposit(uint256 amount) NORMAL
@@ -183,7 +183,7 @@ There are two typically value of broker:
 
 Trader cannot apply both the trading modes above since the broker variable can hold exactly one address at the same time.
 
-There is a delay mechanism on setting broker address, see "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/Perpetual#trade-with-the-order-book) for the design of time lock.
+There is a delay mechanism on setting broker address, see "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/#/en/perpetual?id=trade-with-the-order-book) for the design of time lock.
 
 Perpetual contract provider interface of setting brokers, but the applying delay is determined by global config.
 

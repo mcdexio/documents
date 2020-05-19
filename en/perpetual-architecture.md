@@ -76,7 +76,7 @@ All parameters required by AMM goes here.
 
 Global config is a simple contract only used to set block delay of withdrawal and broker update.
 
-See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/Perpetual#trade-with-the-order-book) for the design of time lock.
+See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/#/en/perpetual?id=trade-with-the-order-book) for the design of time lock.
 
 ### PerpetualProxy.sol
 
