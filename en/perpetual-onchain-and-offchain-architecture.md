@@ -67,8 +67,8 @@ Another key component is the decentralized oracle for obtaining the index price 
 Admin is a special account who has power to:
 * Change the governance parameters
 * Upgrade contract
-* Global liquidation
+* Global settlement
 
 Check [Admin Functions](/en/perpetual-admin-functions.md) for details.
 
-:warning: **Due to the importance of global liquidation, MCDEX will establish a community-led governance committee as soon as possible, and the committee will develop detailed global liquidation trigger mechanisms and processing procedures.**
+:warning: **Due to the importance of global settlement, MCDEX will establish a community-led governance committee as soon as possible, and the committee will develop detailed global settlement trigger mechanisms and processing procedures.**
