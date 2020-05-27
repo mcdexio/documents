@@ -61,7 +61,7 @@ When trading frequently, the position tokens may be redeemed immediately after b
 
 The MAI Exchange contract is at the core of the entire protocol. It handles the matching and cancellation of orders, and is designed to support the exchange of various assets.
 
-Specifically, the bulk of the exchange logic resides in the public method matchOrders, which:
+Specifically, the bulk of the exchange logic resides in the public method matchMarketContractOrders, which:
 
 - Checks signatures and verifies the integrity of orders
 - Computes the resulting state that would occur as a result of matching the passed in orders via a set of limit exchange matching engine rules (Buy, Sell, Mint, Redeem)
