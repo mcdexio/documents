@@ -25,7 +25,7 @@ struct CollateralAccount {
 See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/#/en/perpetual?id=trade-with-the-order-book) for the design of time lock.
 
 ```solidity
-deposit(uint256 amount) NORMAL
+deposit(uint256 amount)
 ```
 Deposit transfer collaterals from caller's address to contract. It accept an amount parameter which indicates the total amount of collaterals that user wants to transfer to contract.
 Approval is required;
@@ -33,13 +33,13 @@ Approval is required;
 **amount should be a fixed float with token's decimals which will be convert to a decimals-18 representation. E.G. Jim deposits 1e6 USDT, later he will found 1e18 collaterals in his account of Mai protocol v2. This only affects internal calculation*
 
 ```solidity
-depositEther() NORMAL
+depositEther()
 ```
 
 Ether version of deposit, using msg.value instead. See description above for details. When using ether, the decimals will be automatically set to 18.
 
 ```solidity
-applyForWithdrawal(uint256 amount) NORMAL
+applyForWithdrawal(uint256 amount)
 ```
 
 Request for further withdrawal of caller's account. This method functions like approve of erc20. Trader could apply for the amount that far greater than actual balance he owned, but applied part is no longer available for position trading.
@@ -272,13 +272,13 @@ Match taker orders with AMM. The main difference between this method and AMM tra
 AMM has some Uniswap-like interfaces which allows trader to trade with internal assets pool.
 
 ```solidity
-createPool(uint256 amount)
+createPool(uint256 amount) NORMAL
 ```
 
 Open asset pool by deposit to AMM. Only available when pool is empty.
 
 ```solidity
-buy(uint256 amount, uint256 limitPrice, uint256 deadline)
+buy(uint256 amount, uint256 limitPrice, uint256 deadline) NORMAL
 ```
 
 Buy position from AMM. It could be open or close or both based on which side of position a trader owns.
@@ -286,27 +286,27 @@ Buy position from AMM. It could be open or close or both based on which side of 
 LimitPrice is the upperbound of bid price. Deadline is a unix-timestamp in seconds. Any unsatisfied condition will fail trading transaction.
 
 ```solidity
-sell(uint256 amount, uint256 limitPrice, uint256 deadline)
+sell(uint256 amount, uint256 limitPrice, uint256 deadline) NORMAL
 ```
 
 Similar to buy, but limitPrice is the lowerbond of bid price.
 
 ```solidity
-addLiquidity(uint256 amount)
+addLiquidity(uint256 amount) NORMAL
 ```
 
 Add liquidity to AMM asset pool. See design of AMM for details.
 
 
 ```solidity
-removeLiquidity(uint256 shareAmount)
+removeLiquidity(uint256 shareAmount) NORMAL
 ```
 
 Remove liquidity to AMM asset pool. See design of AMM for details.
 
 
 ```solidity
-settleShare()
+settleShare() SETTLED
 ```
 
 A special method to remove liquidity only works in settled status. Use a different equation to calculate how much collateral should be returned for a share.
