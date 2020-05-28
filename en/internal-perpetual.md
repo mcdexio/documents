@@ -270,9 +270,9 @@ In order to prevent from removing all positions from the liquidated account, cal
          - LiquidationPrice * PositionSize
          - PositionSize * ShortSocialLossPerContract
          - (GovLiquidationPenaltyRate + GovPenaltyFundRate) * LiquidationPrice * X
-- NewIsSafe:= NewMarginBalance >= NewPositionMargin 
+- NewIsIMSafe:= NewMarginBalance >= NewPositionMargin 
 
-  Solve the NewIsSafe == True equation, we can get X
+  Solve the NewIsIMSafe == True equation, we can get X
 
   - Long:  X >= (CashBalance - EntryValue
                 + EntrySocialLoss + EntryFundingLoss
