@@ -37,6 +37,7 @@ Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The ma
 * [Internal Design of Perpetual](en/internal-perpetual.md)
 * [Internal Design of AMM](en/internal-amm.md)
 * [Implementation of Funding Rate](en/internal-amm-funding-rate.md)
+* [Implementation of Losses](en/internal-perpetual-losses.md)
 * [How To Build The Contract](en/perpetual-deployment.md)
 * [Contract Source Code](https://github.com/mcdexio/mai-protocol-v2)
 
