@@ -1,4 +1,4 @@
-# Contract interfaces
+# Contract Interfaces
 
 ## Perpetual
 
