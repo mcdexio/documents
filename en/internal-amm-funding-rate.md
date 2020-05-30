@@ -1,5 +1,7 @@
 # Implementation of Funding Rate
 
+:warning: NOTE: This is a technical document of the smart contract. If you don't care how smart contracts are written, please skip this document.
+
 The on-chain trading interface is the only way other smart contracts can interact with the decentralized perpetual contract where a key feature is the funding rate. So that we must calculate the funding rate in the smart contract.
 
 MCDEX Perpetual continuously measures the difference between Mark Price of the Perpetual contract and Chainlink's ETH/USD Index. The percentage difference between these two prices acts as the basis for the 8-hourly funding rate applied to all outstanding perpetual contracts.
