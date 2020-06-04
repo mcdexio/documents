@@ -337,8 +337,8 @@ In order to prevent from removing all positions from the liquidated account, cal
      - InsurraceFund:= 0
      - SocialLoss:= LiquidationLoss - CollateralInInsuranceFund
      - SocialLossPerContract:= SocialLoss / TotalSize
-     - If Long: LongSocialLossPerContract += SocialLossPerContract
-     - If Short: ShortSocialLossPerContract += SocialLossPerContract
+     - If Account is Short: LongSocialLossPerContract += SocialLossPerContract
+     - If Account is Long: ShortSocialLossPerContract += SocialLossPerContract
    
 ### BeginGlobalSettle(price)
 Can only called by Admin. Stops all trades and withdraws. The admin can call this function more than once if the price is incorrect.
