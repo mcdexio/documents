@@ -10,8 +10,8 @@
     - [Pool computed](#pool-computed)
   - [Operations](#operations)
     - [CreatePool(Amount)](#createpoolamount)
-    - [BuyFromPool(Amount, LimitPrice, Deadline)](#buyfrompoolamount-limitprice-deadline)
-    - [SellToPool(Amount, LimitPrice, Deadline)](#selltopoolamount-limitprice-deadline)
+    - [Buy(Amount, LimitPrice, Deadline)](#buyamount-limitprice-deadline)
+    - [Sell(Amount, LimitPrice, Deadline)](#sellamount-limitprice-deadline)
     - [AddLiquidity(Amount)](#addliquidityamount)
     - [RemoveLiquidity(ShareAmount)](#removeliquidityshareamount)
     - [UpdateIndex()](#updateindex)
@@ -87,7 +87,7 @@ Steps:
    - LastIndexPrice = IndexPrice
 
 
-### BuyFromPool(Amount, LimitPrice, Deadline)
+### Buy(Amount, LimitPrice, Deadline)
 The trader buy/long. Can be called by anyone.
 
 Steps:
@@ -108,7 +108,7 @@ Require:
 - After trading, LiquidityPool.IsSafe == TRUE && PoolAvailableMargin > 0
 - Sender.IsSafe = True
 
-### SellToPool(Amount, LimitPrice, Deadline)
+### Sell(Amount, LimitPrice, Deadline)
 The trader sell/short. Can be called by anyone.
 
 Steps:
