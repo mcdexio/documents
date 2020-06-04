@@ -80,7 +80,12 @@ Steps:
   - price = IndexPrice
   - amount = Amount
 - Mint Amount ShareToken into Sender (implies TotalSupply:+= Amount)
-- Funding()
+- Init the funding variables
+   - LastFundingTime = BlockTime
+   - LastPremium = fairPrice - indexPrice
+   - LastEMAPremium = the same as LastPremium
+   - LastIndexPrice = IndexPrice
+
 
 ### BuyFromPool(Amount, LimitPrice, Deadline)
 The trader buy/long. Can be called by anyone.
@@ -180,15 +185,10 @@ Steps:
 
 ### Funding()
 
-Update the FundingRate. Can be called by anyone.
+Update the FundingRate. This is a private function.
 
 Steps:
-1. If LastFundingTime == 0 THEN
-   - LastFundingTime = BlockTime
-   - LastPremium = fairPrice - indexPrice
-   - LastEMAPremium = the same as LastPremium
-   - LastIndexPrice = IndexPrice
-   - end (break)
+1. Make sure CreatePool was called
 2. Read the IndexPrice from the Oracle. If the IndexPrice modified, funding() will run twice (equivalent to the calculation of 2 segments of the piecewise function)
    - Let funding variables up-to-date to IndexTimestamp (step 3-5). After that, LastFundingTime:= IndexTimestamp
    - Run step 3-5 again, so that LastFundingTime:= Now()
