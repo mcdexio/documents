@@ -8,12 +8,10 @@
 | MarginBalance | `CashBalance + PNL2` |
 | PositionMargin | `MarkPrice * PositionSize * IMRate` |
 | MaintenanceMargin | `MarkPrice * PositionSize * MMRate` |
-| AvailableMargin | The balance that can open new positions = `MarginBalance - PositionMargin - WithdrawalApplicationAmount` |
-| WithdrawableBalance | `MIN(MarginBalance - PositionMargin, WithdrawalApplicationAmount)` |
+| AvailableMargin | The balance that can open new positions = `MarginBalance - PositionMargin` |
 | IsSafe | `MarginBalance >= MaintenanceMargin` |
 | PNL1 | Long position: `(MarkPrice - AvgEntryPrice) * PositionSize`<br>Short position: `(AvgEntryPrice - MarkPrice) * PositionSize` |
 | PNL2 | `PNL1 - SocialLoss - FundingLoss` |
-| WithdrawalApplicationAmount | Total number of withdrawal application submitted by the user |
 
 ## Off-Chain part
 
