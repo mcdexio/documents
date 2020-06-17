@@ -48,8 +48,4 @@ Only admin can call the following functions. The main purpose includes:
 
 ## Global Config
 
-* GlobalConfig.setGlobalParameter: Modify the global parameters including:
-  * withdrawalLockBlockCount: A trader can withdraw his/her MarginBalance after applying and wait for withdrawalLockBlockCount blocks
-  * brokerLockBlockCount: A trader can change his/her Broker after applying and wait for brokerLockBlockCount blocks
-
 

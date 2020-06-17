@@ -101,7 +101,6 @@ Steps:
 - Funding()
 
 Require:
-- broker == LiquidityPool
 - BlockTime < DeadLine
 - Amount < PositionSize
 - Trading Price <= LimitPrice
@@ -122,7 +121,6 @@ Steps:
 - Funding()
 
 Require:
-- broker == LiquidityPool
 - BlockTime < DeadLine
 - Trading Price >= LimitPrice
 - After trading, LiquidityPool.IsSafe == TRUE && PoolAvailableMargin > 0
@@ -148,7 +146,6 @@ Steps:
 - Funding()
 
 Require:
-- broker == LiquidityPool
 - After AddLiquidity, Sender.IsSafe == TRUE
 - After AddLiquidity, LiquidityPool.CashBalance > 0
 - After AddLiquidity, LiquidityPool.IsSafe == TRUE && PoolAvailableMargin > 0

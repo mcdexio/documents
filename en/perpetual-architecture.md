@@ -24,10 +24,6 @@ Note that deposited collateral is converted to a internal decimals presentation 
 
 Similar to collateral account, this contract maintains position account for each trader and contains all position calculators required from the upper-layer contract.
 
-### Brokerage.sol
-
-Broker contract implements a delayed broker setter to protect order book trading from front running.
-
 ### PerpetualGovernance.sol
 
 The governance contract holds all parameters required for running a perpetual contract, including risk parameters, addresses, and status.
@@ -73,10 +69,6 @@ All parameters required by AMM goes here.
 ## Others
 
 ### GlobalConfig.sol
-
-Global config is a simple contract only used to set block delay of withdrawal and broker update.
-
-See "Broker & Withdraw Time Lock" section in the [references page](https://mcdex.io/references/#/en/perpetual?id=trade-with-the-order-book) for the design of time lock.
 
 ### PerpetualProxy.sol
 

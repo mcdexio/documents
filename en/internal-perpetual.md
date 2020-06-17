@@ -14,7 +14,6 @@
     - [MarginAccount computed](#marginaccount-computed)
   - [Operations](#operations)
     - [Deposit(CollateralAmount)](#depositcollateralamount)
-    - [ApplyForWithdrawal(CollateralAmount)](#applyforwithdrawalcollateralamount)
     - [Withdraw(CollateralAmount)](#withdrawcollateralamount)
     - [Remargin(guy)](#remarginguy)
     - [Buy(Trader, Price, Amount) / Sell(Trader, Price, Amount)](#buytrader-price-amount--selltrader-price-amount)
@@ -22,7 +21,6 @@
     - [BeginGlobalSettle(price)](#beginglobalsettleprice)
     - [GlobalSettled()](#globalsettled)
     - [Settle()](#settle)
-    - [SetBroker(newBroker)](#setbrokernewbroker)
 
 
 ## Functions and Motivation
@@ -42,8 +40,6 @@ There're 3 status: Normal, Emergency and GlobalSettled.
 ## Variables
 
 ### Global Governance
- - GovWithdrawalLockBlockCount: Lock delay (block number) before withdraw
- - GovBrokerLockBlockCount: Lock delay (block number) before broker/relayer takes effect. This number includes the block that calls SetBroker(). ex: If GovBrokerLockBlockCount = 0, the SetBroker() takes effect immediately
 
 ### Perpetual Governance
  - GovInitialMarginRate: Initial margin rate
@@ -78,8 +74,6 @@ NOTE: require GovTradingLotSize = GovLotSize * PositiveIntegers
 ### MarginAccount storage
 - AccountOwner: MarginAccount's owner
 - CashBalance: Deposited collateral
-- WithdrawalApplicationAmount: Amount of collateral application for withdrawal
-- WithdrawalApplicationHeight: Block height that the owner can withdraw
 - PositionSide: Position side. Flat = 0, ShortPosition = 1, LongPosition = 2
 - PositionSize: Position size. Always positive
 - EntryValue: SUM(EntryPrice when opening position * position size)
@@ -111,8 +105,8 @@ NOTE: require GovTradingLotSize = GovLotSize * PositiveIntegers
   - Long:  (CashBalance - EntryValue - SocialLoss - FundingLoss) / (PositionSize * MMRate - PositionSize)
   - Short: (CashBalance + EntryValue - SocialLoss - FundingLoss) / (PositionSize * MMRate + PositionSize)
 - MarginBalance:= CashBalance + PNL2
-- AvailableMargin (the balance that can open new position) := MarginBalance - PositionMargin - WithdrawalApplicationAmount
-- WithdrawableBalance:= MIN(MarginBalance - PositionMargin, WithdrawalApplicationAmount)
+- AvailableMargin (the balance that can open new position) := MarginBalance - PositionMargin
+- WithdrawableBalance:= MIN(MarginBalance - PositionMargin)
 - IsSafe:= MarginBalance >= MaintenanceMargin
 - IsBankrupt:= MarginBalance < 0
 
@@ -126,14 +120,6 @@ NOTE: CollateralAmount.decimals = collateral token's decimals. ex: ETH.decimals 
  - AccountOwner:= sender
  - CashBalance:+= CollateralAmount
 
-### ApplyForWithdrawal(CollateralAmount)
-Apply for withdrawal. Calling this function overwrites the previous calling. Can only called by AccountOwner.
-
-NOTE: CollateralAmount.decimals = collateral token's decimals. ex: ETH.decimals = 18, but some token.decimals = 6 or 8.
-
-  - WithdrawalApplicationAmount:= CollateralAmount
-  - WithdrawalApplicationHeight:= CurrentBlockHeight()
-
 ### Withdraw(CollateralAmount)
 Withdraw from MarginAccount into the wallet. Can only called by AccountOwner.
 
@@ -142,7 +128,6 @@ NOTE: CollateralAmount.decimals = collateral token's decimals. ex: ETH.decimals 
 Require:
   - IsEmergency == FALSE && IsSafe == TRUE
   - CollateralAmount <= WithdrawableBalance 
-  - CurrentBlockHeight() - WithdrawalApplicationHeight >= GovWithdrawalLockBlockCount
   - IsSafe == TRUE after calling this function
 
 Steps:
@@ -367,10 +352,3 @@ Steps：
     - ELSE: 0
   - PositionSize:= 0
   - Transfer all CashBalance into user's wallet
-
-### SetBroker(newBroker)
-Set the broker. The broker takes effect after GovBrokerLockBlockCount blocks (including the block that calls SetBroker()). 
-
-The possible broker can be:
-* Liquidity Pool: Indicate that the user wants to trade with AMM
-* Exchange Relayer: A relayer is used by an off-chain order book to send the Match information to on-chain domain. This kind of broker is a common ETH address.

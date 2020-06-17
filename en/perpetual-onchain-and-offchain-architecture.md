@@ -46,11 +46,7 @@ Due to the current inefficiency of blockchain, the Hybrid model of off-chain mat
 
 ## Broker
 
-Broker is a actor who helps trader to accomplish trading. Each Trader can set his/her Broker. The broker can either be:
-* AMM
-* An order book relayer. The relayer is a ordinary ETH account who matches the orders in the order book, and sends transactions into the chain.
-
-For security reasons, MCDEX only allows traders to trade through one broker at the same time. Traders have to call "change broker" command to switch the broker.
+A Broker is an actor who helps trader to accomplish trading. It is a normal ETH address of the order book. The broker is set in the signature of every orders. To receive trading fee, a broker must assign positive maker/taker fee rate in order data structure. And if given a negative trading fee, the broker will pay trader for making / taking order.
 
 ## Liquidity Provider
 
