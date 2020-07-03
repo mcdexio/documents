@@ -342,7 +342,7 @@ At this time, Alice's overall position size is `-1 + 10/11 = -0.0909`, which is 
 
 The upper limit of the provider's risk exposure is the quantity x and y of the inventory he/her adds to the AMM. In practice, the provider can monitor the status of AMM. When risk exposure occurs, the provider can hedge the risk exposure on other exchanges to maintain risk neutrality.
 
-What's more, when a trader trades with AMM, he needs to pay an additional 0.075% transaction fee, of which 0.06% will enter the AMM's margin account, increasing the AMM margin balance. As the provider has a share of the margin balance, the margin balance attributable to the provider rises consequently. When the provider removes liquidity from AMM, the provider can obtain the fee in proportion to the share. The fee is an incentive for liquidity providers.
+What's more, when a trader trades with AMM, he needs to pay an additional 0.3% transaction fee, which will enter the AMM's margin account, increasing the AMM margin balance. As the provider has a share of the margin balance, the margin balance attributable to the provider rises consequently. When the provider removes liquidity from AMM, the provider can obtain the fee in proportion to the share. The fee is an incentive for liquidity providers.
 
 If the liquidity provider fully hedges its risk exposure, it can greatly reduce the risk and obtain a relatively stable fee income. On the other hand, there is also a premium/discount between the AMM price and other exchanges' prices, and the provider can also arbitrage meanwhile hedging. 
  
