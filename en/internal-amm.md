@@ -36,8 +36,8 @@ Any ETH account can provide liquidity into the Liquidity Pool by calling AddLiqu
   - GovEMAAlpha2 = 1 - GovEMAAlpha
   - GovEMAAlpha2Ln = Ln(1 - GovEMAAlpha)
 - GovUpdateIndexPrize: The prize (the unit is collateral) of who calling updateIndex()
-- GovMarkPremiumLimit: Limit of the PremiumRate when calculating the MarkPrice, ± 0.5%
-- GovFundingDampener: Dampener when calculating FundingRate, ± 0.05%
+- GovMarkPremiumLimit: Limit of the PremiumRate when calculating the MarkPrice, ± 0.6%
+- GovFundingDampener: Dampener when calculating FundingRate, ± 0.2%
 
 ### Pool storage
 - IndexPrice: Price from the Oracle
