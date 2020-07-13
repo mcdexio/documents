@@ -16,7 +16,7 @@ At present, there are two types of contracts live on MCDEX:
 
 Mai Protocol V2 builds the decentralized Perpetual contracts on Ethereum. The market price is soft-pegged to the spot price of the underlying asset via a funding mechanism.
 
-### User's Guid
+### User's Guide
 * [MCDEX References](https://mcdex.io/references/#/en/perpetual)
 * [Roles and the Hybrid Architecture](en/perpetual-onchain-and-offchain-architecture.md)
 * [The Margin-Account Model](en/margin-account-model.md)
