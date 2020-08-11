@@ -12,15 +12,6 @@ Keep in mind that minting and redeeming will maintain the fineness of the coin, 
 
 The TP has 3 status, it also affected by the underlying Perpetual's status.
 
-- Underlying Perpetual is Normal
-  - TP.Normal: Can mint, redeem, ERC20 functions are available
-  - TP.Paused: Almost all functions are not available (even ERC20.transfer is paused) except unpause or stop
-  - TP.Stopped: Can not mint. Can redeem
-- Underlying Perpetual is Emergency
-  - Can not mint, redeem. ERC20.transfer is available
-- Underlying Perpetual is Settled
-  - Can not mint, redeem. Can settle. ERC20.transfer is available
-  
 | Perpetual status | TP status | mint | redeem | settle | ERC20.transfer |
 |------------------|-----------|------|--------|--------|----------------|
 | Normal           | Normal    | ✔    | ✔     |        | ✔              |
@@ -62,6 +53,7 @@ Transfer the collateral into the TP contract, and mint ERC20 tokens.
       - DeltaCash:= 2*OldMarginBalance*Amount/PositionSize - MarkPrice*Amount
 - Transfer DeltaCash from the sender to the TP
 - The sender sells Amount positions to the TP at Price. So TP is always openning the long position
+- Mint Amount ERC20
 
 Require:
 
@@ -103,6 +95,7 @@ Burn ERC20 tokens and transfer the collateral back to the sender.
     - DeltaCash:= 2*OldMarginBalance*Amount/PositionSize - MarkPrice*Amount
 - The sender buys Amount positions to the TP at Price. So TP is always closing the long position
 - Transfer DeltaCash from the TP to the sender
+- Burn Amount ERC20
 
 Require:
 
@@ -113,3 +106,15 @@ Require:
 Note: This function works in tp.stopped status
 
 ### settle()
+
+This function is only available when the whole Perpetual is global settled.
+
+- balance:= balanceOf the collateral in the TP
+- Amount:= balanceOf the sender's ERC20
+- Transfer the balance * amount / supply from the TP to the sender
+- Burn Amount ERC20
+
+Require:
+- Perpetual.IsGlobalSettled
+
+
