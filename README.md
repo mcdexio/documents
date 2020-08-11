@@ -55,3 +55,18 @@ MP Futures is an innovative financial tool with an expiration date. The leverage
 * [An Introduction to Market Protocol](en/market-protocol.md)
 * [Contract Source Code](https://github.com/mcdexio/mai-protocol)
 
+
+## Mai Protocol V2 Applications
+
+### Tokenized Position
+
+[![github.com/mcdexio/mai-tokenized-position-protocol](https://img.shields.io/badge/github-mcdexio%2Fmai--tokenized--position--protocol-success)](https://github.com/mcdexio/mai-tokenized-position-protocol)
+
+* [Internal Design of Tokenized Position](en/internal-tp.md)
+
+### Fund
+
+[![github.com/mcdexio/mai-fund-protocol](https://img.shields.io/badge/github-mcdexio%2Fmai--fund--protocol-success)](https://github.com/mcdexio/mai-fund-protocol)
+
+
+
