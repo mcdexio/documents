@@ -20,10 +20,13 @@ The TP has 3 status, it also affected by the underlying Perpetual's status.
 | Emergency        | *         |      |         |        | ✔ if not TP.paused |
 | GlobalSettled    | *         |      |         | ✔     | ✔ if not TP.paused |
 
-### mint(Amount)
+There is another dangerous case that can be equivalent to Stopped status: if the TP was liquidated, so that TP.totalSupply != Perpetual.MarginAccount(TP).PositionSize. If the TP was liquidated, we won't open mint() anymore.
+
+### mint(tpAmount)
 
 Transfer the collateral into the TP contract, and mint ERC20 tokens.
 
+- Amount:= tpAmount. Because we only enable mint() when TP.totalSupply == MarginAccount(self).positionSize, so that the number of TP tokens equals to the number of positions
 - Calculate how much the collateral is, while keep the MarginBalance / PositionSize unchanged
   - If the positionSize == 0, the TP must be an empty contract
     - Price:= MarkPrice
@@ -53,7 +56,7 @@ Transfer the collateral into the TP contract, and mint ERC20 tokens.
       - DeltaCash:= 2*OldMarginBalance*Amount/PositionSize - MarkPrice*Amount
 - Transfer DeltaCash from the sender to the TP
 - The sender sells Amount positions to the TP at Price. So TP is always openning the long position
-- Mint Amount ERC20
+- Mint tpAmount ERC20
 
 Require:
 
@@ -61,11 +64,13 @@ Require:
 - Not TP.stopped
 - Not Perpetual.IsEmergency
 - IsSafe == TRUE after calling this function
+- TP.totalSupply == Perpetual.MarginAccount(TP).PositionSize
 
-### redeem(Amount)
+### redeem(tpAmount)
 
 Burn ERC20 tokens and transfer the collateral back to the sender.
 
+- Amount:= Perpetual.MarginAccount(TP).PositionSize * tpAmount / totalSupply
 - Calculate how much the collateral is, while keep the MarginBalance / PositionSize unchanged
   - The current MarginBalance
     - OldPNL1:= MarkPrice*PositionSize - EntryValue
@@ -95,7 +100,7 @@ Burn ERC20 tokens and transfer the collateral back to the sender.
     - DeltaCash:= 2*OldMarginBalance*Amount/PositionSize - MarkPrice*Amount
 - The sender buys Amount positions to the TP at Price. So TP is always closing the long position
 - Transfer DeltaCash from the TP to the sender
-- Burn Amount ERC20
+- Burn tpAmount ERC20
 
 Require:
 
