@@ -20,7 +20,7 @@ The TP has 3 status, it also affected by the underlying Perpetual's status.
 | Emergency        | *         |      |         |        | ✔ if not TP.paused |
 | GlobalSettled    | *         |      |         | ✔     | ✔ if not TP.paused |
 
-There is another dangerous case that can be equivalent to Stopped status: if the TP was liquidated, so that TP.totalSupply != Perpetual.MarginAccount(TP).PositionSize. If the TP was liquidated, we won't open mint() anymore.
+There is another dangerous case that can be equivalent to Stopped status: if the TP was liquidated, so that TP.totalSupply != PositionSize. If the TP was liquidated, we won't open mint() anymore.
 
 ### mint(tpAmount)
 
@@ -64,13 +64,13 @@ Require:
 - Not TP.stopped
 - Not Perpetual.IsEmergency
 - IsSafe == TRUE after calling this function
-- TP.totalSupply == Perpetual.MarginAccount(TP).PositionSize
+- TP.totalSupply == PositionSize
 
 ### redeem(tpAmount)
 
 Burn ERC20 tokens and transfer the collateral back to the sender.
 
-- Amount:= Perpetual.MarginAccount(TP).PositionSize * tpAmount / totalSupply
+- Amount:= PositionSize * tpAmount / totalSupply
 - Calculate how much the collateral is, while keep the MarginBalance / PositionSize unchanged
   - The current MarginBalance
     - OldPNL1:= MarkPrice*PositionSize - EntryValue
