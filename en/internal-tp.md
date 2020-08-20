@@ -48,7 +48,7 @@ This function only works if positionSize is the same as totalSupply. ie: the TP 
       - NewEntrySocialLoss:= EntrySocialLoss + LongSocialLossPerContract*Amount
       - NewEntryFundingLoss:= EntryFundingLoss + AccumulatedFundingPerContract*Amount
       - NewCashBalance:= CashBalance + DeltaCash
-    - The new marginBalance after redeeming
+    - The new marginBalance after minting
       - NewSocialLoss:= LongSocialLossPerContract*NewPositionSize - NewEntrySocialLoss
       - NewFundingLoss:= (AccumulatedFundingPerContract*NewPositionSize - NewEntryFundingLoss)
       - NewUPNL1:= MarkPrice*NewPositionSize - NewEntryValue
