@@ -28,9 +28,9 @@ The TP has 3 status, it also affected by the underlying Perpetual's status.
 
 Transfer the collateral into the TP contract, and mint ERC20 tokens.
 
-- Amount:= 
-  - If totalSupply == 0: tpAmount
-  - Otherwise: PositionSize * tpAmount / totalSupply
+This function only works if positionSize is the same as totalSupply. ie: the TP is not liquidated.
+
+- Amount:= tpAmount
 - Price:= MarkPrice
 - Calculate the collateral required to deposit
   - If totalSupply == 0:
