@@ -14,25 +14,27 @@ Keep in mind that minting and redeeming will maintain the fineness of the synthe
 
 The TP has 3 status, it also affected by the underlying Perpetual's status.
 
-| Perpetual status | TP status | mint | redeem            | settle | ERC20.transfer |
-|------------------|-----------|------|-------------------|--------|----------------|
-| Normal           | Normal    | ✔    | ✔ normal version |        | ✔              |
-| Normal           | Paused    |      |                   |        |                |
-| Normal           | Stopped   |      | ✔ stop version    |        | ✔              |
-| Emergency        | *         |      |                   |        | ✔ if not TP.paused |
-| GlobalSettled    | *         |      |                   | ✔     | ✔ if not TP.paused |
-
-There are 2 dangerous cases that the TP can not mint or redeem while keeping the fineness of the synthetic coin. Either case requires admin to stop the TP.
-1. the TP was liquidated, so that TP.totalSupply != PositionSize
-2. the funding loss is too large. When AccumulatedFundingPerContract >= MarkPrice/2, the normal mint and redeem will not work
+| Perpetual status | TP status | mint | redeem | settle | ERC20.transfer |
+|------------------|-----------|------|--------|--------|----------------|
+| Normal           | Normal    | ✔    | ✔     |        | ✔             |
+| Normal           | Paused    |      |        |        |                |
+| Normal           | Stopped   |      | ✔      |        | ✔             |
+| Emergency        | Normal    |      |        |        | ✔              |
+| Emergency        | Paused    |      |        |        |                |
+| Emergency        | Stopped   |      |        |        | ✔              |
+| GlobalSettled    | Normal    |      |        | ✔      | ✔             |
+| GlobalSettled    | Paused    |      |        |        |                |
+| GlobalSettled    | Stopped   |      |        | ✔      | ✔             |
 
 ### mint(tpAmount)
 
 Transfer the collateral into the TP contract, and mint ERC20 tokens.
 
-- Amount:= tpAmount. Because we only enable mint() when TP.totalSupply == MarginAccount(self).positionSize, so that the number of TP tokens equals to the number of positions
+- Amount:= 
+  - If the totalSupply == 0: tpAmount
+  - Otherwise: PositionSize * tpAmount / totalSupply
 - Calculate how much the collateral is, while keep the MarginBalance / PositionSize unchanged
-  - If the positionSize == 0, the TP must be an empty contract
+  - If the totalSupply == 0, the TP must be an empty contract
     - Price:= MarkPrice
     - DeltaCash:= MarkPrice*Amount
   - Otherwise, the TP already has some value, keep the MarginBalance / PositionSize unchanged
@@ -65,12 +67,13 @@ Transfer the collateral into the TP contract, and mint ERC20 tokens.
 
 Require:
 
-- TP.Normal
+- Not TP.Paused
+- Not TP.Stopped
 - Not Perpetual.IsEmergency
 - IsSafe == TRUE after calling this function
 - TP.totalSupply == PositionSize
 
-### redeem(tpAmount). normal version
+### redeem(tpAmount)
 
 Burn ERC20 tokens and transfer the collateral back to the sender.
 
@@ -109,22 +112,10 @@ Burn ERC20 tokens and transfer the collateral back to the sender.
 
 Require:
 
-- TP.Normal
+- Not TP.Paused
 - Not Perpetual.IsEmergency
 - IsSafe == TRUE after calling this function
-
-### redeem(tpAmount). stop version
-
-This function is only available when TP.Stopped
-
-- balance:= MarginBalance
-- Amount:= balanceOf the sender's ERC20
-- Transfer the balance * amount / supply from the TP to the sender
-- Burn tpAmount ERC20
-
-Require:
-- TP.Stopped
-
+- totalSupply >= tpAmount
 
 ### settle()
 
@@ -141,7 +132,8 @@ Require:
 
 ### pause()
 
-Just set TP.Pause
+Just set TP.Paused
 
 ### stop()
 
+Just set TP.Stopped
