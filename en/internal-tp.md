@@ -56,7 +56,6 @@ This function only works if positionSize is the same as totalSupply. ie: the TP 
       - NewMarginBalance:= NewCashBalance + NewUPNL2
     - Solve this equation: NewMarginBalance / NewPositionSize == OldMarginBalance / PositionSize
       - DeltaCash:= OldMarginBalance * Amount / PositionSize
-      - Require DeltaCash >= 0
 - Transfer DeltaCash from the sender to the TP
 - The sender sells Amount positions to the TP at Price. So TP is always openning the long position
 - Mint tpAmount ERC20
@@ -100,7 +99,6 @@ Burn ERC20 tokens and transfer the collateral back to the sender.
     - NewMarginBalance:= NewCashBalance + NewUPNL2
   - Solve this equation: NewMarginBalance/NewPositionSize == OldMarginBalance/PositionSize, we will get
     - DeltaCash:= OldMarginBalance * Amount / PositionSize
-    - Require DeltaCash >= 0
 - The sender buys Amount positions to the TP at Price. So TP is always closing the long position
 - Transfer DeltaCash from the TP to the sender
 - Burn tpAmount ERC20
