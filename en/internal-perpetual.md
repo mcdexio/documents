@@ -316,10 +316,10 @@ In order to prevent from removing all positions from the liquidated account, cal
 
 4. Handle the loss
    - If InsuranceFund.CashBalance >= LiquidationLoss
-     - LiquidationLoss:-=InsurraceFund
+     - LiquidationLoss:-=InsuranceFund
    - Else:
      - CollateralInInsuranceFund:= InsuranceFund
-     - InsurraceFund:= 0
+     - InsuranceFund:= 0
      - SocialLoss:= LiquidationLoss - CollateralInInsuranceFund
      - SocialLossPerContract:= SocialLoss / TotalSize
      - If Account is Short: LongSocialLossPerContract += SocialLossPerContract
