@@ -5,9 +5,7 @@
 - [Internal Design of Perpetual](#internal-design-of-perpetual)
   - [Functions and Motivation](#functions-and-motivation)
   - [Variables](#variables)
-    - [Global Governance](#global-governance)
     - [Perpetual Governance](#perpetual-governance)
-    - [Perpetual constant](#perpetual-constant)
     - [Perpetual storage](#perpetual-storage)
     - [Perpetual computed](#perpetual-computed)
     - [MarginAccount storage](#marginaccount-storage)
@@ -39,8 +37,6 @@ There're 3 status: Normal, Emergency and GlobalSettled.
 
 ## Variables
 
-### Global Governance
-
 ### Perpetual Governance
  - GovInitialMarginRate: Initial margin rate
  - GovMaintenanceMarginRate: Maintenance margin rate
@@ -48,15 +44,12 @@ There're 3 status: Normal, Emergency and GlobalSettled.
  - GovPenaltyFundRate: Liquidation penalty rate of the liquidated assets to the InsuranceFund
  - GovTakerDevFeeRate: Taker fee rate of the trading volume when using the Exchange. In order to make ClosePosition easier, when closing a position, if the trader's balance is not enough, the trading fee will be limited to the balance. NOTE: trading with AMM does not use GovTakerDevFeeRate
  - GovMakerDevFeeRate: Maker fee rate of the trading volume when using the Exchange. In order to make ClosePosition easier, when closing a position, if the trader's balance is not enough, the trading fee will be limited to the balance.
+ - GovTradingLotSize: Amount unit when Buy/Sell. ex: If GovTradingLotSize = 10, you can only buy/sell 10, 20, ...
+ - GovLotSize: PositionSize always limit to this unit. NOTE: Buy, Sell, Liquidate, RemoveLiquidity, everywhere in Perpetual should obey this constraint
 
 NOTE: require GovMaintenanceMarginRate < GovInitialMarginRate
 NOTE: require GovLiquidationPenaltyRate < GovMaintenanceMarginRate
 NOTE: require GovPenaltyFundRate < GovMaintenanceMarginRate
-
-### Perpetual constant
- - GovTradingLotSize: Amount unit when Buy/Sell. ex: If GovTradingLotSize = 10, you can only buy/sell 10, 20, ...
- - GovLotSize: PositionSize always limit to this unit. NOTE: Buy, Sell, Liquidate, RemoveLiquidity, everywhere in Perpetual should obey this constraint
-
 NOTE: require GovTradingLotSize = GovLotSize * PositiveIntegers
 
 ### Perpetual storage
