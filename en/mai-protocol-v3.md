@@ -71,27 +71,27 @@ On one hand, funding payment can prevent more traders from becoming the counterp
 ### 2.3 Margin & PNL
 Due to the permissionless nature of this protocol, anyone can create any perpetual swaps of different risk levels. To prevent the spread of risk across different perpetual swaps, the protocol uses isolated margin mechanism - each perpetual swap owned by a trader has its own independent margin account, and the PNL of this account won’t affect other margin accounts they trade. 
 
-When a trader enters long or short position of ΔN contracts at a certain entry price P_entry, ΔN>0 indicates that the trader longs, ΔN<0 indicates that the trader shorts. 
+When a trader enters long or short position of `ΔN` contracts at a certain entry price `P_entry`, `ΔN>0` indicates that the trader longs, `ΔN<0` indicates that the trader shorts. 
 
 When opening position, the margin balance of the trader’s margin account must be larger than or equal to the Initial Margin: 
 
-     P_mark|ΔN|R_im
+     P_mark·|ΔN|·R_im
 
-P_mark is the mark price provided by Oracle. `P_mark` is usually equal to the index price `P_index` or is a TWAP result of `P_index` when using some decentralized Oracle like Uniswap.  M_imis the Initial Margin Rate of the perpetual contract.
+P_mark is the mark price provided by Oracle. `P_mark` is usually equal to the index price `P_index` or is a TWAP result of `P_index` when using some decentralized Oracle like Uniswap.  `M_im` is the Initial Margin Rate of the perpetual contract.
 
 The PNL (Profit and Loss) of the position is calculated as follows:
 
-    (P_mark-P_entry)ΔN	
+    (P_mark-P_entry)·ΔN	
   
 The profit of the MCDEX perpetual position can be withdrawn at any time, i.e. “PNL” always refers to its realized state. And the position loss is deducted from the margin balance in real time.
 
 Trader can close position at an exit price P_exit. The PNL after the trader closes the position is:
 
-    (P_exit-P_entry)ΔN	
+    (P_exit-P_entry)·ΔN	
 
 The trader must ensure that the margin balance of the margin account always be larger than or equal to the Maintenance Margin:
 
-    P_markΔNM_mm
+    P_mark·ΔN·M_mm
 
 If the maintenance margin requirement cannot be met, the position will be liquidated.
 
