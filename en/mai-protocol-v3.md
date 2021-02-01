@@ -205,7 +205,11 @@ The MCDEX governance proposal needs to be initiated by MCB holders, and the init
 
 A MCB holder can delegate the voting power to another holder.
 
-The voting period lasts 72 hours, and there is a time lock of 48 hours. Participants need to stake MCB. If the proposal passes, the MCB that voted yes will be unlocked after 72 hours since the execution of this proposal, and the MCB that voted no will be unlocked immediately when the voting period terminates. If the proposal fails, all staked MCB will be unlocked immediately when the voting period terminates.
+The voting period lasts 72 hours, and there is a time lock of 48 hours. 
+
+Stake MCB to get xMCB to participate in governance. As xMCB is a staking certificate, it is not transferrable. If you would like to unstake, there will be a 5% penalty on you distributed to other stakers. 
+
+xMCB holders get rewards from the Vault and newly issued MCB. The specific amount will be determined by MCDEX DAO. 
 
 ### 3.2 Tokenomics
 
