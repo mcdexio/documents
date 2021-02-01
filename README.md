@@ -5,7 +5,7 @@ Monte Carlo Decentralized Exchange (MCDEX) is a decentralized derivatives exchan
 
 ## Mai Protocol V3
 * [White Paper (English)](en/mai-protocol-v3.md)
-* [White Paper (Chainese)](cn/Mai3白皮书中文版.md)
+* [White Paper (Chinese)](cn/Mai3白皮书中文版.md)
 
 
 ## Mai Protocol V2 - Perpetual Docs
