@@ -2,13 +2,11 @@
 
 Monte Carlo Decentralized Exchange (MCDEX) is a decentralized derivatives exchange - a trading platform enabling efficient and transparent trading with leverages.
 
-At present, there are two types of contracts live on MCDEX:
-- [MCDEX Documents](#mcdex-documents)
-  - [Mai Protocol V2 - Perpetual Docs](#mai-protocol-v2---perpetual-docs)
-    - [User's Guid](#users-guid)
-    - [News and Reports](#news-and-reports)
-    - [Development and Contract Implementation](#development-and-contract-implementation)
-  - [Mai Protocol V1 - MP Futures Docs](#mai-protocol-v1---mp-futures-docs)
+
+## Mai Protocol V3
+* [White Paper (English)](en/mai-protocol-v3.md)
+* [White Paper (Chainese)](cn/Mai3白皮书中文版.md)
+
 
 ## Mai Protocol V2 - Perpetual Docs
 
